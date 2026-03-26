@@ -17,17 +17,8 @@ class PageController extends Controller
 
     public function contact()
     {
-        // İletişim sayfası ayarlarını al
-        $contactSettings = [
-            'email' => Setting::get('contact_email', 'info@gmsgarage.com'),
-            'phone' => Setting::get('contact_phone', '0555 123 45 67'),
-            'whatsapp' => Setting::get('contact_whatsapp', '0555 123 45 67'),
-            'address' => Setting::get('contact_address', 'Görsel Mah. Kağıthane Cad. No: 26 /1A KAĞITHANE/İSTANBUL'),
-            'google_maps_embed' => Setting::get('contact_google_maps_embed', ''),
-            'form_description' => Setting::get('contact_form_description', 'Sorularınız, önerileriniz veya destek talepleriniz için aşağıdaki formu doldurun. Mesajınız info@gmsgarage.com adresine gönderilecektir.'),
-        ];
-        
-        return view('pages.contact', compact('contactSettings'));
+        $settings = Setting::pluck('value', 'key')->toArray();
+        return view('pages.contact', compact('settings'));
     }
 
     public function contactSubmit(Request $request)
