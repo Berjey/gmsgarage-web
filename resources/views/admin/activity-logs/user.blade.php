@@ -31,7 +31,7 @@
                         </span>
                         @if($user->last_login_at)
                             <span class="text-xs text-gray-500">
-                                Son giriş: {{ $user->last_login_at->diffForHumans() }}
+                                Son giriş: {{ \Carbon\Carbon::parse($user->last_login_at)->diffForHumans() }}
                             </span>
                         @endif
                     </div>
