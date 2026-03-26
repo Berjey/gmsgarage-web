@@ -33,26 +33,33 @@ class AdminController extends Controller
         ')->first();
 
         // Mesaj sayaçları — tek sorguda
-        $messageStats = ContactMessage::selectRaw('
+        $isMySQL = config('database.default') === 'mysql';
+        $todayExpr = $isMySQL ? 'DATE(created_at) = CURDATE()' : 'DATE(created_at) = DATE("now")';
+
+        $messageStats = ContactMessage::selectRaw("
             COUNT(*) as total,
             SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) as unread,
-            SUM(CASE WHEN DATE(created_at) = DATE("now") THEN 1 ELSE 0 END) as today
-        ')->first();
+            SUM(CASE WHEN {$todayExpr} THEN 1 ELSE 0 END) as today
+        ")->first();
 
         // Değerleme sayaçları — tek sorguda
-        $evalStats = EvaluationRequest::selectRaw('
+        $evalStats = EvaluationRequest::selectRaw("
             COUNT(*) as total,
             SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) as unread,
-            SUM(CASE WHEN DATE(created_at) = DATE("now") THEN 1 ELSE 0 END) as today
-        ')->first();
+            SUM(CASE WHEN {$todayExpr} THEN 1 ELSE 0 END) as today
+        ")->first();
 
         // Müşteri sayaçları — tek sorguda
-        $customerStats = Customer::selectRaw('
+        $monthExpr = $isMySQL
+            ? 'MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())'
+            : 'strftime("%m", created_at) = strftime("%m", "now") AND strftime("%Y", created_at) = strftime("%Y", "now")';
+
+        $customerStats = Customer::selectRaw("
             COUNT(*) as total,
-            SUM(CASE WHEN DATE(created_at) = DATE("now") THEN 1 ELSE 0 END) as today,
+            SUM(CASE WHEN {$todayExpr} THEN 1 ELSE 0 END) as today,
             SUM(CASE WHEN created_at >= ? AND created_at <= ? THEN 1 ELSE 0 END) as this_week,
-            SUM(CASE WHEN strftime("%m", created_at) = strftime("%m", "now") AND strftime("%Y", created_at) = strftime("%Y", "now") THEN 1 ELSE 0 END) as this_month
-        ', [now()->startOfWeek(), now()->endOfWeek()])->first();
+            SUM(CASE WHEN {$monthExpr} THEN 1 ELSE 0 END) as this_month
+        ", [now()->startOfWeek(), now()->endOfWeek()])->first();
 
         $stats = [
             // Araç
