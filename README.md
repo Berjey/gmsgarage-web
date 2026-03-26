@@ -1,134 +1,141 @@
-# GMS Garage - Otogaleri Web Sitesi
-
-Premium ikinci el araç alım-satım platformu. Laravel tabanlı tam kapsamlı otogaleri yönetim sistemi.
+# GMSGARAGE — Premium İkinci El Araç Galerisi
 
 **Canlı Site:** [www.gmsgarage.com](https://www.gmsgarage.com)
 
----
-
-## Teknolojiler
-
-- **Backend:** Laravel 10, PHP 8.2
-- **Frontend:** Tailwind CSS, Alpine.js, Vite
-- **Veritabanı:** SQLite (local) / MySQL (production)
-- **Hosting:** Hostinger Shared Hosting
+Modern, tam özellikli otomotiv galerisi web uygulaması. Laravel 10 + Tailwind CSS + Vite ile geliştirilmiştir.
 
 ---
 
 ## Özellikler
 
 ### Web Sitesi
-- Araç listeleme ve detay sayfaları
-- Gelişmiş araç arama ve filtreleme
-- Araç değerleme formu (arabam.com API entegrasyonu)
-- Blog sistemi (kategoriler, makaleler)
-- Yasal sayfalar (KVKK, Kullanım Şartları, Çerez Politikası)
-- İletişim formu
-- Dark mode desteği
-- SEO optimizasyonu (sitemap, meta tags, canonical)
-- Özel 404 sayfası
+- **Anasayfa** — Hero bölümü, araç arama/filtreleme, öne çıkan araçlar
+- **Araç Listesi** — Gelişmiş filtreler (marka, model, yıl, fiyat, yakıt, vites)
+- **Araç Detay** — Galeri, özellik tablosu, WhatsApp entegrasyonu
+- **Araç Değerleme Sihirbazı** — arabam.com cascade API ile 7 adımlı wizard (tip → marka → yıl → model → kasa → yakıt → vites → versiyon)
+- **Blog** — SEO optimizeli blog sistemi, kategori desteği
+- **İletişim** — Form + Google Maps entegrasyonu
+- **Yasal Sayfalar** — KVKK, Çerez Politikası, Kullanım Şartları (merkezi yönetim)
+- **Dark Mode** — Sistem tercihi + manuel toggle
+- **WhatsApp Butonu** — Sabit, animasyonlu
+- **Sitemap.xml** — Otomatik üretim
 
 ### Admin Paneli
-- Araç yönetimi (ekle, düzenle, sil, aktif/pasif)
-- Blog yazısı yönetimi
-- Müşteri yönetimi
-- İletişim mesajları
-- Araç değerleme talepleri
-- Yasal sayfa yönetimi
-- Site ayarları (logo, iletişim bilgileri, SEO, popup)
-- Sitemap yönetimi
-- Kullanıcı yönetimi (admin, manager, editor rolleri)
-- Aktivite logları
+- **Dashboard** — Özet istatistikler, son aktiviteler
+- **Araç Yönetimi** — CRUD, çoklu fotoğraf, durum yönetimi (aktif / rezerve / satıldı / arşiv)
+- **Blog Yönetimi** — Zengin metin editörü, SEO alanları, öne çıkarma
+- **İletişim Mesajları** — Okundu/okunmadı, toplu işlem, CSV export, e-posta ile yanıt
+- **Araç Değerleme Talepleri** — PDF export, e-posta bildirimi
+- **Müşteri CRM** — Otomatik kayıt, KVKK onay takibi, toplu e-posta
+- **Kullanıcı Yönetimi** — 3 rol: Süper Admin / Galeri Yöneticisi / İçerik Editörü
+- **Ayarlar** — Site bilgileri, SEO, iletişim, sosyal medya, Google Analytics, popup kampanya
+- **Yasal Sayfa Editörü** — KVKK ve diğer metinler
+- **Aktivite Logları** — Kullanıcı bazlı işlem geçmişi
 
 ---
 
-## Kurulum (Local)
+## Teknoloji Yığını
 
-```bash
-# Repoyu klonla
-git clone https://github.com/Berjey/gmsgarage.git
-cd gmsgarage
-
-# Bağımlılıkları yükle
-composer install
-npm install
-
-# Ortam dosyasını oluştur
-cp .env.example .env
-php artisan key:generate
-
-# Veritabanını hazırla
-php artisan migrate --seed
-
-# Arabam.com verilerini çek
-php artisan db:seed --class=CarBrandSeeder
-
-# Assets derle
-npm run dev
-
-# Sunucuyu başlat
-php artisan serve
-```
+| Katman | Teknoloji |
+|--------|-----------|
+| Backend | PHP 8.2, Laravel 10 |
+| Frontend | Blade, Tailwind CSS 3 |
+| Build | Vite 5 |
+| Veritabanı | MySQL (production), SQLite (development) |
+| Hosting | Hostinger Shared Hosting |
+| Fonts | Bunny Fonts (Inter — privacy-friendly) |
 
 ---
 
-## Production Deployment (Hostinger)
+## Kurulum
 
 ### Gereksinimler
 - PHP 8.2+
-- MySQL 8.0+
-- mod_rewrite aktif
+- Composer
+- Node.js 18+
+- MySQL 8 veya SQLite
 
-### Adımlar
+### Yerel Geliştirme
 
-1. Proje dosyalarını (vendor ve .env hariç) hosting root'una yükle
-2. `public/` içeriğini web root'una kopyala
-3. `.env` dosyasını oluştur (MySQL bilgileriyle)
-4. `php artisan migrate --seed` çalıştır
-5. `php artisan storage:link` çalıştır
-6. `php artisan config:cache && php artisan view:cache` çalıştır
+```bash
+git clone https://github.com/Berjey/gmsgarage.git
+cd gmsgarage
 
-### Önemli .env Ayarları (Production)
-```env
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://www.gmsgarage.com
-DB_CONNECTION=mysql
-SESSION_SECURE_COOKIE=true
+composer install
+npm install
+
+cp .env.example .env
+php artisan key:generate
+
+php artisan migrate
+npm run dev
+php artisan serve
+```
+
+### Arabam.com Araç Verisi Senkronizasyonu
+
+Araç değerleme sihirbazı için DB'ye araç konfigürasyon verisi çekilmesi gerekir:
+
+```bash
+# Sadece markaları çek
+php artisan arabam:sync --brands-only
+
+# Tam cascade verisi (yıl, model, kasa, yakıt, vites, versiyon)
+php artisan arabam:sync --full
+
+# Mevcut veriyi silmeden eksik markaları tamamla
+php artisan arabam:sync --resume
+```
+
+### Production Deployment
+
+```bash
+php artisan migrate --force
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan storage:link
+php artisan arabam:sync --full
 ```
 
 ---
 
-## Dizin Yapısı
+## Proje Yapısı
 
 ```
-├── app/
-│   ├── Http/Controllers/     # Route controller'ları
-│   ├── Models/               # Eloquent modeller
-│   └── Services/             # Servis sınıfları (ArabamApiService)
-├── database/
-│   ├── migrations/           # Veritabanı migration'ları
-│   └── seeders/              # Seed verileri
-├── public/                   # Web root (index.php, assets)
-├── resources/
-│   ├── views/                # Blade şablonları
-│   └── css/ js/              # Frontend kaynakları
-└── routes/
-    ├── web.php               # Web rotaları
-    └── admin.php             # Admin panel rotaları
+app/
+├── Http/Controllers/
+│   └── Admin/                 # Admin panel controller'ları
+├── Models/                    # Eloquent modelleri
+├── Services/                  # EmailService, ArabamApiService
+└── Console/Commands/          # arabam:sync Artisan komutu
+
+resources/
+├── css/app.css
+├── js/                        # app.js, legal-modal.js
+└── views/
+    ├── layouts/               # Public ve admin layout'lar
+    ├── components/            # Header, footer
+    ├── pages/                 # Public sayfalar
+    └── admin/                 # Admin panel view'ları
+
+database/
+├── migrations/
+└── seeders/
 ```
 
 ---
 
-## Admin Paneli
+## Güvenlik
 
-**URL:** `/admin`
+- CSRF koruması tüm POST isteklerinde aktif
+- Rate limiting: iletişim (5/dk), değerleme (10/dk)
+- Ayarlar whitelist ile mass-assignment koruması
+- Admin paneli rol bazlı yetkilendirme (RBAC)
+- APP_DEBUG production'da kapalı
 
 ---
 
-## Notlar
+## Lisans
 
-- Araç marka/model verileri arabam.com API'den çekilip veritabanına kaydedilmiştir (41 marka, 160 model)
-- Araç değerleme formu arabam.com API ile gerçek zamanlı fiyat tahmini yapar
-- CSS/JS assets Vite ile derlenir — production'da `npm run build` sonrası `public/build/` klasörü yüklenir
-- Admin araç formunda marka/model DB'den, kasa/yakıt/vites/versiyon arabam.com API'den gelir
+© 2026 GMSGARAGE. Tüm hakları saklıdır.

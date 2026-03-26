@@ -43,12 +43,12 @@ return new class extends Migration
 
             $table->timestamps();
 
-            // Cascade sorguları için index'ler
-            $table->index('brand_arabam_id');
-            $table->index(['brand_arabam_id', 'model_year']);
-            $table->index(['brand_arabam_id', 'model_year', 'model_group_id']);
-            $table->index(['brand_arabam_id', 'model_year', 'model_group_id', 'body_type_id']);
-            $table->index(['brand_arabam_id', 'model_year', 'model_group_id', 'body_type_id', 'fuel_type_id']);
+            // Cascade sorguları için index'ler (kısa isimler - MySQL 64 karakter limiti)
+            $table->index('brand_arabam_id', 'idx_avc_brand');
+            $table->index(['brand_arabam_id', 'model_year'], 'idx_avc_brand_year');
+            $table->index(['brand_arabam_id', 'model_year', 'model_group_id'], 'idx_avc_brand_year_grp');
+            $table->index(['brand_arabam_id', 'model_year', 'model_group_id', 'body_type_id'], 'idx_avc_brand_year_grp_body');
+            $table->index(['brand_arabam_id', 'model_year', 'model_group_id', 'body_type_id', 'fuel_type_id'], 'idx_avc_brand_year_grp_body_fuel');
         });
     }
 

@@ -33,3 +33,4 @@ Thumbs.db
 *.sqlite-journal
 /storage/framework/sessions/*
 !/storage/framework/sessions/.gitkeep
+/deploy/
