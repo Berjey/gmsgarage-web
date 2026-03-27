@@ -730,6 +730,11 @@
                             </div>
                             <style>
                                 #expertiseDiagram .car-part { transition: fill 0.3s; }
+                                /* Dark mode SVG cizgi renkleri */
+                                .dark #expertiseDiagram svg path[stroke="#D3D2D2"] { stroke: #444 !important; }
+                                .dark #expertiseDiagram svg path[fill="#F0F0F0"] { fill: #2a2a2a !important; }
+                                .dark #expertiseDiagram svg path[fill="#D3D2D2"] { fill: #444 !important; }
+                                .dark #expertiseDiagram svg path[fill="#D8D8D8"] { fill: #3a3a3a !important; }
                                 @foreach($allParts as $part)
                                     @php
                                         $svgId = $svgPartMap[$part] ?? '';
@@ -737,11 +742,11 @@
                                         $isReplaced = in_array($part, $replacedParts);
                                     @endphp
                                     @if($svgId && $isReplaced)
-                                        #expertiseDiagram #{{ $svgId }} { fill: #ef4444 !important; }
+                                        #expertiseDiagram #{{ $svgId }} { fill: #dc2626 !important; }
                                     @elseif($svgId && $isPainted)
-                                        #expertiseDiagram #{{ $svgId }} { fill: #eab308 !important; }
+                                        #expertiseDiagram #{{ $svgId }} { fill: #3b82f6 !important; }
                                     @elseif($svgId)
-                                        #expertiseDiagram #{{ $svgId }} { fill: #22c55e !important; opacity: 0.4; }
+                                        {{-- Orijinal: varsayilan renkte kalsin --}}
                                     @endif
                                 @endforeach
                             </style>
@@ -758,12 +763,12 @@
                                     @endphp
                                     <div class="flex items-center gap-2 p-3 rounded-xl border-2
                                         {{ $isReplaced ? 'border-red-200 bg-red-50 dark:bg-red-900/20 dark:border-red-800' :
-                                           ($isPainted ? 'border-yellow-200 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-800' :
+                                           ($isPainted ? 'border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800' :
                                                          'border-gray-100 bg-gray-50 dark:bg-[#2a2a2a] dark:border-[#333333]') }}">
-                                        <span class="w-3 h-3 rounded-full flex-shrink-0 {{ $isReplaced ? 'bg-red-500' : ($isPainted ? 'bg-yellow-500' : 'bg-green-500') }}"></span>
+                                        <span class="w-3 h-3 rounded-full flex-shrink-0 {{ $isReplaced ? 'bg-red-600' : ($isPainted ? 'bg-blue-500' : 'bg-gray-400 dark:bg-gray-500') }}"></span>
                                         <div>
                                             <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">{{ $part }}</span>
-                                            <span class="block text-xs {{ $isReplaced ? 'text-red-600 dark:text-red-400 font-bold' : ($isPainted ? 'text-yellow-600 dark:text-yellow-400 font-bold' : 'text-green-600 dark:text-green-400') }}">
+                                            <span class="block text-xs {{ $isReplaced ? 'text-red-600 dark:text-red-400 font-bold' : ($isPainted ? 'text-blue-600 dark:text-blue-400 font-bold' : 'text-gray-500 dark:text-gray-400') }}">
                                                 {{ $isReplaced ? 'Değişmiş' : ($isPainted ? 'Boyalı' : 'Orijinal') }}
                                             </span>
                                         </div>
@@ -776,13 +781,16 @@
                     <!-- Lejant -->
                     <div class="mt-6 pt-4 border-t border-gray-200 dark:border-[#333333] flex flex-wrap gap-6 text-sm">
                         <span class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                            <span class="w-4 h-4 rounded-full bg-green-500 inline-block"></span> Orijinal
+                            <span class="w-4 h-4 rounded-full bg-gray-400 dark:bg-gray-500 inline-block"></span> Orijinal
                         </span>
                         <span class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                            <span class="w-4 h-4 rounded-full bg-yellow-500 inline-block"></span> Boyalı
+                            <span class="w-4 h-4 rounded-full bg-blue-500 inline-block"></span> Boyalı
                         </span>
                         <span class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                            <span class="w-4 h-4 rounded-full bg-red-500 inline-block"></span> Değişmiş
+                            <span class="w-4 h-4 rounded-full bg-amber-400 inline-block"></span> Lokal Boyalı
+                        </span>
+                        <span class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                            <span class="w-4 h-4 rounded-full bg-red-600 inline-block"></span> Değişmiş
                         </span>
                     </div>
                 </div>
