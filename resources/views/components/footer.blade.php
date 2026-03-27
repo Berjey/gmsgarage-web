@@ -1,4 +1,4 @@
-<footer class="bg-gray-900 dark:bg-[#141414] text-white mt-20 border-t border-gray-800 dark:border-[#252525] relative overflow-hidden">
+<footer class="bg-gray-900 dark:bg-[#161616] text-gray-200 dark:text-gray-300 mt-20 border-t border-gray-700 dark:border-[#252525] relative overflow-hidden">
     <!-- Subtle animated gradient overlay -->
     <div class="absolute inset-0 opacity-5">
         <div class="absolute inset-0 footer-gradient-animation"></div>

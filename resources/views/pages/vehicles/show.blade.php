@@ -235,10 +235,10 @@
                                 @if(($vehicle->vehicle_status ?? 'available') !== 'available')
                                     <span class="inline-flex items-center text-sm font-bold px-4 py-1.5 rounded-full border
                                         {{ match($vehicle->vehicle_status ?? 'available') {
-                                            'sold'        => 'bg-red-100 text-red-700 border-red-300',
-                                            'reserved'    => 'bg-yellow-100 text-yellow-700 border-yellow-300',
-                                            'opportunity' => 'bg-green-100 text-green-700 border-green-300',
-                                            default       => 'bg-blue-100 text-blue-700 border-blue-300'
+                                            'sold'        => 'bg-red-100 text-red-700 border-red-300 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800',
+                                            'reserved'    => 'bg-yellow-100 text-yellow-700 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800',
+                                            'opportunity' => 'bg-green-100 text-green-700 border-green-300 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800',
+                                            default       => 'bg-blue-100 text-blue-700 border-blue-300 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800'
                                         } }}">
                                         {{ $vehicle->status_label }}
                                     </span>
@@ -761,14 +761,14 @@
                                         $isPainted = in_array($part, $paintedParts);
                                         $isReplaced = in_array($part, $replacedParts);
                                     @endphp
-                                    <div class="flex items-center gap-2 p-3 rounded-xl border-2
-                                        {{ $isReplaced ? 'border-red-200 bg-red-50 dark:bg-red-900/20 dark:border-red-800' :
-                                           ($isPainted ? 'border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800' :
-                                                         'border-gray-100 bg-gray-50 dark:bg-[#2a2a2a] dark:border-[#333333]') }}">
-                                        <span class="w-3 h-3 rounded-full flex-shrink-0 {{ $isReplaced ? 'bg-red-600' : ($isPainted ? 'bg-blue-500' : 'bg-gray-400 dark:bg-gray-500') }}"></span>
+                                    <div class="flex items-center gap-3 p-3.5 rounded-xl border-2 transition-colors
+                                        {{ $isReplaced ? 'border-red-300 bg-red-50 dark:bg-red-900/30 dark:border-red-700' :
+                                           ($isPainted ? 'border-blue-300 bg-blue-50 dark:bg-blue-900/30 dark:border-blue-700' :
+                                                         'border-gray-200 bg-gray-50 dark:bg-[#2a2a2a] dark:border-[#333333]') }}">
+                                        <span class="w-3.5 h-3.5 rounded-full flex-shrink-0 ring-2 ring-offset-1 dark:ring-offset-[#2a2a2a] {{ $isReplaced ? 'bg-red-500 ring-red-300 dark:ring-red-700' : ($isPainted ? 'bg-blue-500 ring-blue-300 dark:ring-blue-700' : 'bg-gray-300 ring-gray-200 dark:bg-gray-600 dark:ring-[#333333]') }}"></span>
                                         <div>
-                                            <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">{{ $part }}</span>
-                                            <span class="block text-xs {{ $isReplaced ? 'text-red-600 dark:text-red-400 font-bold' : ($isPainted ? 'text-blue-600 dark:text-blue-400 font-bold' : 'text-gray-500 dark:text-gray-400') }}">
+                                            <span class="text-sm font-semibold {{ $isReplaced ? 'text-red-800 dark:text-red-300' : ($isPainted ? 'text-blue-800 dark:text-blue-300' : 'text-gray-700 dark:text-gray-200') }}">{{ $part }}</span>
+                                            <span class="block text-xs font-bold {{ $isReplaced ? 'text-red-600 dark:text-red-400' : ($isPainted ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-500') }}">
                                                 {{ $isReplaced ? 'Değişmiş' : ($isPainted ? 'Boyalı' : 'Orijinal') }}
                                             </span>
                                         </div>
