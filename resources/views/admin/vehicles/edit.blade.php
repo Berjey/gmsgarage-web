@@ -357,10 +357,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="flex items-end pb-1">
                         <label class="flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all w-full
-                            {{ old('swap', $vehicle->swap) ? 'border-green-400 bg-green-50' : 'border-gray-200 hover:border-green-300 hover:bg-green-50/50' }}">
+                            {{ ($errors->any() ? old('swap') : $vehicle->swap) ? 'border-green-400 bg-green-50' : 'border-gray-200 hover:border-green-300 hover:bg-green-50/50' }}">
                             <input type="checkbox" name="swap" value="1"
                                    class="w-4 h-4 mt-0.5 text-green-600 border-gray-300 rounded focus:ring-green-500"
-                                   {{ old('swap', $vehicle->swap) ? 'checked' : '' }}>
+                                   {{ ($errors->any() ? old('swap') : $vehicle->swap) ? 'checked' : '' }}>
                             <div>
                                 <p class="font-bold text-gray-900 text-sm">Takasa Uygun</p>
                                 <p class="text-xs text-gray-500 mt-0.5">Araç için takas kabul edilir</p>
@@ -369,10 +369,10 @@
                     </div>
                     <div class="flex items-end pb-1">
                         <label class="flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all w-full
-                            {{ old('price_negotiable', $vehicle->price_negotiable) ? 'border-amber-400 bg-amber-50' : 'border-gray-200 hover:border-amber-300 hover:bg-amber-50/50' }}">
+                            {{ ($errors->any() ? old('price_negotiable') : $vehicle->price_negotiable) ? 'border-amber-400 bg-amber-50' : 'border-gray-200 hover:border-amber-300 hover:bg-amber-50/50' }}">
                             <input type="checkbox" name="price_negotiable" value="1"
                                    class="w-4 h-4 mt-0.5 text-amber-600 border-gray-300 rounded focus:ring-amber-500"
-                                   {{ old('price_negotiable', $vehicle->price_negotiable) ? 'checked' : '' }}>
+                                   {{ ($errors->any() ? old('price_negotiable') : $vehicle->price_negotiable) ? 'checked' : '' }}>
                             <div>
                                 <p class="font-bold text-gray-900 text-sm">Pazarlık Payı Var</p>
                                 <p class="text-xs text-gray-500 mt-0.5">Fiyat pazarlığa açıktır</p>
@@ -896,18 +896,18 @@
             {{-- Yayın Durumu --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label class="flex items-start gap-4 p-5 border-2 rounded-xl cursor-pointer transition-all hover:border-red-400 hover:bg-red-50/50
-                    {{ old('is_active', $vehicle->is_active) ? 'border-red-500 bg-red-50' : 'border-gray-200' }}">
+                    {{ ($errors->any() ? old('is_active') : $vehicle->is_active) ? 'border-red-500 bg-red-50' : 'border-gray-200' }}">
                     <input type="checkbox" name="is_active" value="1" class="w-5 h-5 mt-0.5 text-red-600 border-gray-300 rounded focus:ring-red-500"
-                           {{ old('is_active', $vehicle->is_active) ? 'checked' : '' }}>
+                           {{ ($errors->any() ? old('is_active') : $vehicle->is_active) ? 'checked' : '' }}>
                     <div>
                         <p class="font-bold text-gray-900">Aktif (Yayında)</p>
                         <p class="text-sm text-gray-500 mt-1">Araç web sitesinde ziyaretçilere görünür olacak</p>
                     </div>
                 </label>
                 <label class="flex items-start gap-4 p-5 border-2 rounded-xl cursor-pointer transition-all hover:border-yellow-400 hover:bg-yellow-50/50
-                    {{ old('is_featured', $vehicle->is_featured) ? 'border-yellow-500 bg-yellow-50' : 'border-gray-200' }}">
+                    {{ ($errors->any() ? old('is_featured') : $vehicle->is_featured) ? 'border-yellow-500 bg-yellow-50' : 'border-gray-200' }}">
                     <input type="checkbox" name="is_featured" value="1" class="w-5 h-5 mt-0.5 text-yellow-500 border-gray-300 rounded focus:ring-yellow-400"
-                           {{ old('is_featured', $vehicle->is_featured) ? 'checked' : '' }}>
+                           {{ ($errors->any() ? old('is_featured') : $vehicle->is_featured) ? 'checked' : '' }}>
                     <div>
                         <p class="font-bold text-gray-900">Öne Çıkarılmış</p>
                         <p class="text-sm text-gray-500 mt-1">Anasayfada vitrin bölümünde gösterilir</p>
