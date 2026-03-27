@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $page->title . ' - ' . ($settings['site_title'] ?? 'GMSGARAGE'))
-@section('meta_description', ($settings['site_title'] ?? 'GMSGARAGE') . ' - ' . $page->title)
+@section('description', $page->title . ' - ' . ($settings['site_title'] ?? 'GMSGARAGE') . ' yasal bilgilendirme sayfası.')
 
 @section('content')
 <div class="container mx-auto px-4 py-12 dark:bg-neutral-950 transition-colors duration-200 min-h-screen">
