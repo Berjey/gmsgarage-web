@@ -94,8 +94,8 @@ class VehicleController extends Controller
         $mainImageRule = $isPublishing ? 'required|image|max:5120' : 'nullable|image|max:5120';
 
         $validated = $request->validate([
-            // Temel Bilgiler
-            'title'     => $requiredRule . '|string|max:255',
+            // Temel Bilgiler - title her durumda zorunlu
+            'title'     => 'required|string|max:255',
             'brand'     => $requiredRule . '|string|max:255',
             'model'     => $requiredRule . '|string|max:255',
             'year'      => $requiredRule . '|integer|min:1900|max:' . (date('Y') + 1),

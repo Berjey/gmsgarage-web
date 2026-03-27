@@ -193,7 +193,7 @@
                             <div class="col-span-2">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Marka <span class="text-red-500">*</span></label>
                                 <div class="adm-dd" id="ddWrap-brand">
-                                    <input type="hidden" id="ddVal-brand">
+                                    <input type="hidden" name="brand" id="ddVal-brand">
                                     <button type="button" class="adm-dd-btn" id="ddBtn-brand" onclick="toggleCascadeDD('brand')" disabled>
                                         <span id="ddLabel-brand">Yükleniyor...</span>
                                         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -219,7 +219,7 @@
                             <div class="col-span-2">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Model / Seri <span class="text-red-500">*</span></label>
                                 <div class="adm-dd" id="ddWrap-model">
-                                    <input type="hidden" id="ddVal-model">
+                                    <input type="hidden" name="model" id="ddVal-model">
                                     <button type="button" class="adm-dd-btn" id="ddBtn-model" onclick="toggleCascadeDD('model')" disabled>
                                         <span id="ddLabel-model">Önce marka ve yıl seçiniz</span>
                                         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
