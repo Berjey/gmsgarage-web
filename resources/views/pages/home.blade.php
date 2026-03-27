@@ -149,7 +149,7 @@
     /* Dark Mode Dropdown Panel */
     .dark .hero-custom-dropdown-panel {
         /* CRITICAL: Solid dark background */
-        background: linear-gradient(180deg, #242424 0%, #1a1a1a 100%);
+        background: #252525;
         border-color: rgba(220, 38, 38, 0.3);
         
         /* Enhanced shadow for dark mode */
@@ -477,7 +477,7 @@
     }
 
     .dark .hero-custom-dropdown.disabled .hero-custom-dropdown-trigger {
-        background-color: #1f2937;
+        background-color: #252525;
     }
 </style>
 @endpush
