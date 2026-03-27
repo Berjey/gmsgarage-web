@@ -502,7 +502,7 @@
                 <div class="order-2 lg:order-1 animate-slide-in-left">
                     <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-2xl border-b-4 border-primary-600 dark:border-primary-500 overflow-visible hover:shadow-3xl transition-shadow duration-300 hero-form-card">
                         <!-- Tabs -->
-                        <div class="flex border-b-2 border-gray-100 dark:border-gray-800 relative">
+                        <div class="flex border-b-2 border-gray-100 dark:border-[#333333] relative">
                             <button id="tab-sell" 
                                     class="hero-tab active">
                                 <span class="flex items-center justify-center space-x-2">
@@ -530,7 +530,7 @@
                                 <div class="form-field">
                                     <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">MARKA</label>
                                     <div class="hero-custom-dropdown hero-brand-dropdown" data-dropdown="brand-sell" id="brand-dropdown-sell">
-                                        <button type="button" class="hero-custom-dropdown-trigger border-2 border-gray-300 dark:border-gray-700 dark:bg-[#2a2a2a] dark:text-gray-100" data-value="" data-brand-id="">
+                                        <button type="button" class="hero-custom-dropdown-trigger border-2 border-gray-300 dark:border-[#333333] dark:bg-[#2a2a2a] dark:text-gray-100" data-value="" data-brand-id="">
                                             <span class="selected-text placeholder dark:text-gray-400">Marka Seçin</span>
                                             <svg class="arrow w-6 h-6 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -572,7 +572,7 @@
                                 <div class="form-field">
                                     <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">MARKA</label>
                                     <div class="hero-custom-dropdown" data-dropdown="brand-buy">
-                                        <button type="button" class="hero-custom-dropdown-trigger border-2 border-gray-300 dark:border-gray-700 dark:bg-[#2a2a2a] dark:text-gray-100" data-value="">
+                                        <button type="button" class="hero-custom-dropdown-trigger border-2 border-gray-300 dark:border-[#333333] dark:bg-[#2a2a2a] dark:text-gray-100" data-value="">
                                             <span class="selected-text placeholder">Tüm Markalar</span>
                                             <svg class="arrow w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -700,7 +700,7 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="text-center group reveal hover-lift bg-white dark:bg-[#252525] rounded-2xl p-6 shadow-md dark:shadow-xl dark:border dark:border-gray-800 transition-all duration-200">
+                <div class="text-center group reveal hover-lift bg-white dark:bg-[#252525] rounded-2xl p-6 shadow-md dark:shadow-xl dark:border dark:border-[#333333] transition-all duration-200">
                     <div class="bg-gradient-to-br from-primary-500 to-primary-600 w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-xl">
                         <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
@@ -710,7 +710,7 @@
                     <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Tüm araçlarımız garantili ve bakımlıdır. Güvenle alışveriş yapın.</p>
                 </div>
                 
-                <div class="text-center group reveal hover-lift bg-white dark:bg-[#252525] rounded-2xl p-6 shadow-md dark:shadow-xl dark:border dark:border-gray-800 transition-all duration-200" style="animation-delay: 0.1s">
+                <div class="text-center group reveal hover-lift bg-white dark:bg-[#252525] rounded-2xl p-6 shadow-md dark:shadow-xl dark:border dark:border-[#333333] transition-all duration-200" style="animation-delay: 0.1s">
                     <div class="bg-gradient-to-br from-primary-500 to-primary-600 w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-xl">
                         <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -720,7 +720,7 @@
                     <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Piyasanın en uygun fiyatları ile hizmetinizdeyiz. Fiyat garantisi veriyoruz.</p>
                 </div>
                 
-                <div class="text-center group reveal hover-lift bg-white dark:bg-[#252525] rounded-2xl p-6 shadow-md dark:shadow-xl dark:border dark:border-gray-800 transition-all duration-200" style="animation-delay: 0.2s">
+                <div class="text-center group reveal hover-lift bg-white dark:bg-[#252525] rounded-2xl p-6 shadow-md dark:shadow-xl dark:border dark:border-[#333333] transition-all duration-200" style="animation-delay: 0.2s">
                     <div class="bg-gradient-to-br from-primary-500 to-primary-600 w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-xl">
                         <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -730,7 +730,7 @@
                     <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Tüm araçlarımız ekspertiz raporlu ve detaylı kontrol edilmiştir.</p>
                 </div>
                 
-                <div class="text-center group reveal hover-lift bg-white dark:bg-[#252525] rounded-2xl p-6 shadow-md dark:shadow-xl dark:border dark:border-gray-800 transition-all duration-200" style="animation-delay: 0.3s">
+                <div class="text-center group reveal hover-lift bg-white dark:bg-[#252525] rounded-2xl p-6 shadow-md dark:shadow-xl dark:border dark:border-[#333333] transition-all duration-200" style="animation-delay: 0.3s">
                     <div class="bg-gradient-to-br from-primary-500 to-primary-600 w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-xl">
                         <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>

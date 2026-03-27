@@ -1,4 +1,4 @@
-<header class="bg-white/95 dark:bg-[#1e1e1e]/95 backdrop-blur-modern shadow-lg sticky top-0 z-50 border-b border-gray-100 dark:border-gray-800 transition-all duration-300">
+<header class="bg-white/95 dark:bg-[#1e1e1e]/95 backdrop-blur-modern shadow-lg sticky top-0 z-50 border-b border-gray-100 dark:border-[#333333] transition-all duration-300">
     <nav class="container-custom">
         <div class="flex items-center justify-between h-28">
             <!-- Logo -->
@@ -17,19 +17,19 @@
                     Anasayfa
                 </a>
                 <a href="{{ route('vehicles.index') }}" 
-                   class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('vehicles.*') ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-gray-800' : '' }}">
+                   class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-[#252525] font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('vehicles.*') ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-[#252525]' : '' }}">
                     Araçlar
                 </a>
                 <a href="{{ route('blog.index') }}" 
-                   class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('blog.*') ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-gray-800' : '' }}">
+                   class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-[#252525] font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('blog.*') ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-[#252525]' : '' }}">
                     Blog
                 </a>
                 <a href="{{ route('about') }}" 
-                   class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('about') ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-gray-800' : '' }}">
+                   class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-[#252525] font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('about') ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-[#252525]' : '' }}">
                     Hakkımızda
                 </a>
                 <a href="{{ route('contact') }}" 
-                   class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('contact') ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-gray-800' : '' }}">
+                   class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-[#252525] font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('contact') ? 'text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-[#252525]' : '' }}">
                     İletişim
                 </a>
                 <a href="tel:{{ preg_replace('/[^0-9+]/', '', $settings['contact_phone'] ?? '') }}" class="ml-4 btn btn-primary">
@@ -39,7 +39,7 @@
                     Hemen Ara
                 </a>
                 <!-- Dark Mode Toggle -->
-                <button id="dark-mode-toggle" class="ml-4 p-2 rounded-lg text-gray-700 hover:text-primary-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Dark mode toggle">
+                <button id="dark-mode-toggle" class="ml-4 p-2 rounded-lg text-gray-700 hover:text-primary-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-[#252525] transition-colors" aria-label="Dark mode toggle">
                     <svg id="dark-mode-icon-sun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
                     </svg>
@@ -58,7 +58,7 @@
         </div>
         
         <!-- Mobile Navigation -->
-        <div id="mobile-menu" class="hidden lg:hidden pb-4 border-t border-gray-100 dark:border-gray-800 mt-2">
+        <div id="mobile-menu" class="hidden lg:hidden pb-4 border-t border-gray-100 dark:border-[#333333] mt-2">
             <div class="flex flex-col space-y-3">
                 <a href="{{ route('home') }}" 
                    class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors {{ request()->routeIs('home') ? 'text-primary-600 dark:text-primary-400' : '' }}">

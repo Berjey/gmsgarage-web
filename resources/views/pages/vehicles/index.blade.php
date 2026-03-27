@@ -451,8 +451,8 @@
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8" style="overflow: visible;">
                 <!-- Filters Sidebar -->
                 <aside class="lg:col-span-1" style="overflow: visible;">
-                    <div class="bg-white dark:bg-[#252525] rounded-xl shadow-lg dark:shadow-xl p-6 sticky top-28 border border-gray-200 dark:border-gray-800 transition-colors duration-200" style="overflow: visible; position: relative;">
-                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200 dark:border-gray-800">
+                    <div class="bg-white dark:bg-[#252525] rounded-xl shadow-lg dark:shadow-xl p-6 sticky top-28 border border-gray-200 dark:border-[#333333] transition-colors duration-200" style="overflow: visible; position: relative;">
+                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200 dark:border-[#333333]">
                             <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">Filtreler</h2>
                             <a href="{{ route('vehicles.index') }}" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold transition-colors">
                                 Temizle
@@ -1002,7 +1002,7 @@
                                 <div class="filter-accordion-content">
                                     <input type="text" name="keyword" value="{{ request('keyword') }}" 
                                            placeholder="Model, paket, özellik arayın…"
-                                           class="single-input dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
+                                           class="single-input dark:bg-[#2a2a2a] dark:text-gray-100 dark:border-[#333333]"
                                            onchange="updateKeywordSummary()">
                                 </div>
                             </div>
@@ -1029,7 +1029,7 @@
                             <div class="flex items-center space-x-2">
                                 <span class="text-sm text-gray-600 dark:text-gray-300 font-medium">Sırala:</span>
                                 <div class="hero-custom-dropdown" data-dropdown="sort-filter">
-                                    <button type="button" class="hero-custom-dropdown-trigger border-2 border-gray-200 dark:border-gray-700 dark:bg-[#2a2a2a] dark:text-gray-100" data-value="{{ request('sort', 'newest') }}">
+                                    <button type="button" class="hero-custom-dropdown-trigger border-2 border-gray-200 dark:border-[#333333] dark:bg-[#2a2a2a] dark:text-gray-100" data-value="{{ request('sort', 'newest') }}">
                                         <span class="selected-text">
                                             @php
                                                 $sortOptions = [
@@ -1091,7 +1091,7 @@
                             {{ $vehicles->appends(request()->query())->links() }}
                         </div>
                     @else
-                        <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl dark:border dark:border-gray-800 p-16 text-center transition-colors duration-200">
+                        <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl dark:border dark:border-[#333333] p-16 text-center transition-colors duration-200">
                             <div class="w-24 h-24 bg-gray-100 dark:bg-[#2a2a2a] rounded-full flex items-center justify-center mx-auto mb-6">
                                 <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>

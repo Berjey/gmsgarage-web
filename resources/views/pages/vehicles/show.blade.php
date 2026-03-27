@@ -39,7 +39,7 @@
 
 @section('content')
     <!-- Breadcrumb -->
-    <section class="bg-gray-50 dark:bg-[#1e1e1e] py-4 border-b border-gray-200 dark:border-gray-800 transition-colors duration-200">
+    <section class="bg-gray-50 dark:bg-[#1e1e1e] py-4 border-b border-gray-200 dark:border-[#333333] transition-colors duration-200">
         <div class="container-custom">
             <nav class="flex items-center space-x-2 text-sm">
                 <a href="{{ route('vehicles.index') }}" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Araç Listesi</a>
@@ -78,7 +78,7 @@
                             <!-- Navigation Arrows (on hover) -->
                             @if($totalImages > 1)
                                 <button onclick="event.stopPropagation(); previousImage();" 
-                                        class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-full p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                                        class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-[#252525]/90 hover:bg-white dark:hover:bg-[#252525] text-gray-900 dark:text-gray-100 rounded-full p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                                     </svg>
@@ -114,7 +114,7 @@
                                         <img src="{{ $image }}" 
                                              alt="{{ $vehicle->title }} - Görsel {{ $index + 1 }}"
                                              onclick="changeImage({{ $index }})"
-                                             class="thumbnail-item w-24 h-24 object-cover rounded-lg cursor-pointer transition-all duration-300 border-2 flex-shrink-0 {{ $index === 0 ? 'border-primary-600 dark:border-primary-500 shadow-md scale-105' : 'border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 hover:scale-105' }}"
+                                             class="thumbnail-item w-24 h-24 object-cover rounded-lg cursor-pointer transition-all duration-300 border-2 flex-shrink-0 {{ $index === 0 ? 'border-primary-600 dark:border-primary-500 shadow-md scale-105' : 'border-gray-200 dark:border-[#333333] hover:border-primary-400 dark:hover:border-primary-500 hover:scale-105' }}"
                                              onerror="this.src='{{ $defaultImage }}';"
                                              id="thumb-{{ $index }}"
                                              data-index="{{ $index }}">
@@ -263,7 +263,7 @@
                     </div>
                     
                     <!-- Action Buttons -->
-                    <div class="flex flex-col gap-3 bg-white dark:bg-[#252525] rounded-b-2xl p-6 border-x border-b border-gray-200 dark:border-gray-800 mb-3 transition-colors duration-200">
+                    <div class="flex flex-col gap-3 bg-white dark:bg-[#252525] rounded-b-2xl p-6 border-x border-b border-gray-200 dark:border-[#333333] mb-3 transition-colors duration-200">
                         <!-- Arabayı Yerinde Gör - Primary CTA -->
                         <a href="{{ route('contact') }}" 
                            class="w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 uppercase text-sm shadow-lg hover:shadow-xl hover:shadow-primary-500/30 hover:scale-[1.01] relative overflow-hidden group">
@@ -310,7 +310,7 @@
                         $totalActive = \App\Models\Vehicle::where('is_active', true)->count();
                     @endphp
 
-                    <div class="bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-gray-800 shadow-md dark:shadow-xl hover:shadow-lg transition-all duration-300 overflow-hidden">
+                    <div class="bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-[#333333] shadow-md dark:shadow-xl hover:shadow-lg transition-all duration-300 overflow-hidden">
                         <!-- Header Section -->
                         <div class="p-5 pb-4">
                             <div class="flex items-start gap-3 mb-4">
@@ -343,14 +343,14 @@
 
                             <!-- Galeri Bilgi Rozetleri -->
                             <div class="flex items-center gap-3 flex-wrap">
-                                <div class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                <div class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 dark:bg-[#2a2a2a] rounded-lg border border-gray-200 dark:border-[#333333]">
                                     <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
                                     <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Güvenilir Satıcı</span>
                                 </div>
                                 @if($totalActive > 0)
-                                <div class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                <div class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 dark:bg-[#2a2a2a] rounded-lg border border-gray-200 dark:border-[#333333]">
                                     <svg class="w-4 h-4 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                                     </svg>
@@ -361,7 +361,7 @@
                         </div>
 
                         <!-- Divider -->
-                        <div class="border-t border-gray-200 dark:border-gray-800"></div>
+                        <div class="border-t border-gray-200 dark:border-[#333333]"></div>
 
                         <!-- İletişim Aksiyonları -->
                         <div class="p-5 pt-4 space-y-2.5">
@@ -391,7 +391,7 @@
             <!-- Hızlı Bilgi Kartları -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 <!-- Yıl -->
-                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-4 border border-gray-200 dark:border-gray-800 flex items-center gap-3 transition-colors duration-200">
+                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-4 border border-gray-200 dark:border-[#333333] flex items-center gap-3 transition-colors duration-200">
                     <div class="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -404,7 +404,7 @@
                 </div>
                 
                 <!-- Kilometre -->
-                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-4 border border-gray-200 dark:border-gray-800 flex items-center gap-3 transition-colors duration-200">
+                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-4 border border-gray-200 dark:border-[#333333] flex items-center gap-3 transition-colors duration-200">
                     <div class="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -417,7 +417,7 @@
                 </div>
                 
                 <!-- Yakıt -->
-                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-4 border border-gray-200 dark:border-gray-800 flex items-center gap-3 transition-colors duration-200">
+                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-4 border border-gray-200 dark:border-[#333333] flex items-center gap-3 transition-colors duration-200">
                     <div class="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
@@ -430,7 +430,7 @@
                 </div>
                 
                 <!-- Vites -->
-                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-4 border border-gray-200 dark:border-gray-800 flex items-center gap-3 transition-colors duration-200">
+                <div class="bg-gray-50 dark:bg-[#252525] rounded-xl p-4 border border-gray-200 dark:border-[#333333] flex items-center gap-3 transition-colors duration-200">
                     <div class="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
@@ -445,7 +445,7 @@
             </div>
             
             <!-- Araç Özellikleri -->
-            <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl p-8 mb-8 border border-gray-100 dark:border-gray-800 transition-colors duration-200">
+            <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl p-8 mb-8 border border-gray-100 dark:border-[#333333] transition-colors duration-200">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Araç Özellikleri</h2>
                 {{--
                     SOL: Kimlik / Genel bilgiler (condition, marka, model, kasa, renk, kapı, koltuk)
@@ -457,7 +457,7 @@
                     <div class="space-y-4">
                         <!-- Araç Durumu (Sıfır / İkinci El) -->
                         @if($vehicle->condition)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Araç Durumu</span>
                             <span class="inline-flex items-center font-bold text-sm px-3 py-1 rounded-full
                                 {{ $vehicle->condition === 'zero_km'
@@ -470,7 +470,7 @@
 
                         <!-- Marka -->
                         @if($vehicle->brand)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Marka</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->brand }}</span>
                         </div>
@@ -478,7 +478,7 @@
 
                         <!-- Model -->
                         @if($vehicle->model)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Model</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->model }}</span>
                         </div>
@@ -486,7 +486,7 @@
 
                         <!-- Kasa / Gövde Tipi -->
                         @if($vehicle->body_type)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Kasa Tipi</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->body_type }}</span>
                         </div>
@@ -494,7 +494,7 @@
 
                         <!-- Renk -->
                         @if($vehicle->color)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Renk</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">
                                 {{ $vehicle->color }}
@@ -505,7 +505,7 @@
 
                         <!-- Kapı Sayısı -->
                         @if($vehicle->door_count)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Kapı Sayısı</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->door_count }} Kapı</span>
                         </div>
@@ -513,7 +513,7 @@
 
                         <!-- Koltuk Sayısı -->
                         @if($vehicle->seat_count)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Koltuk Sayısı</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->seat_count }} Kişilik</span>
                         </div>
@@ -521,7 +521,7 @@
 
                         <!-- Takas -->
                         @if($vehicle->swap)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Takas</span>
                             <span class="inline-flex items-center gap-1.5 font-bold text-sm px-3 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
                                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
@@ -537,7 +537,7 @@
                     <div class="space-y-4">
                         <!-- Motor Hacmi -->
                         @if($vehicle->engine_size)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Motor Hacmi</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">
                                 @php
@@ -552,7 +552,7 @@
 
                         <!-- Motor Gücü -->
                         @if($vehicle->horse_power)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Motor Gücü</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->horse_power }} HP</span>
                         </div>
@@ -560,7 +560,7 @@
 
                         <!-- Tork -->
                         @if($vehicle->torque)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Tork</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->torque }} Nm</span>
                         </div>
@@ -568,7 +568,7 @@
 
                         <!-- Çekiş -->
                         @if($vehicle->drive_type)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Çekiş</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->drive_type }}</span>
                         </div>
@@ -576,7 +576,7 @@
 
                         <!-- Paket / Versiyon -->
                         @if($vehicle->package_version)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Paket / Versiyon</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->package_version }}</span>
                         </div>
@@ -584,7 +584,7 @@
 
                         <!-- Garanti -->
                         @if($vehicle->has_warranty)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Garanti</span>
                             <span class="font-bold text-green-600 dark:text-green-400 text-right">
                                 Var
@@ -597,7 +597,7 @@
 
                         <!-- Tramer (sadece bilinen değerlerde) -->
                         @if($vehicle->tramer_status && $vehicle->tramer_status !== 'Bilinmiyor')
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Tramer Kaydı</span>
                             <span class="font-bold {{ $vehicle->tramer_status === 'Yok' ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400' }} text-right">
                                 {{ $vehicle->tramer_status }}
@@ -610,7 +610,7 @@
 
                         <!-- Kaçıncı Sahip -->
                         @if($vehicle->owner_number)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Kaçıncı Sahip</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->owner_number }}. Sahip</span>
                         </div>
@@ -618,7 +618,7 @@
 
                         <!-- Muayene Tarihi -->
                         @if($vehicle->inspection_date)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Muayene Tarihi</span>
                             <span class="font-bold text-gray-900 dark:text-gray-100 text-right">{{ $vehicle->inspection_date->format('d.m.Y') }}</span>
                         </div>
@@ -626,7 +626,7 @@
 
                         <!-- Pazarlık -->
                         @if($vehicle->price_negotiable)
-                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-[#333333]">
                             <span class="text-gray-600 dark:text-gray-300 font-medium">Pazarlık</span>
                             <span class="inline-flex items-center gap-1.5 font-bold text-sm px-3 py-1 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -652,7 +652,7 @@
                 $hasDamageData  = count($paintedParts) > 0 || count($replacedParts) > 0;
             @endphp
             @if($hasDamageData)
-            <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl p-8 mb-8 border border-gray-100 dark:border-gray-800 transition-colors duration-200">
+            <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl p-8 mb-8 border border-gray-100 dark:border-[#333333] transition-colors duration-200">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Boya & Değişen Parçalar</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     @foreach($allParts as $part)
@@ -663,7 +663,7 @@
                         <div class="flex flex-col items-center gap-1.5 p-3 rounded-xl border-2
                             {{ $isReplaced ? 'border-red-200 bg-red-50 dark:bg-red-900/20 dark:border-red-800' :
                                ($isPainted  ? 'border-yellow-200 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-800' :
-                                              'border-gray-100 bg-gray-50 dark:bg-gray-800 dark:border-gray-700') }}">
+                                              'border-gray-100 bg-gray-50 dark:bg-[#252525] dark:border-[#333333]') }}">
                             <span class="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center">{{ $part }}</span>
                             @if($isReplaced)
                                 <span class="text-xs font-bold text-red-600 dark:text-red-400">Değişmiş</span>
@@ -691,10 +691,10 @@
 
             <!-- Donanımlar -->
             @if(!empty($featureGroups))
-                <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl p-8 mb-8 border border-gray-100 dark:border-gray-800 transition-colors duration-200">
+                <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl p-8 mb-8 border border-gray-100 dark:border-[#333333] transition-colors duration-200">
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Donanımlar</h2>
-                        <span class="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                        <span class="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-[#2a2a2a] px-3 py-1 rounded-full">
                             {{ count($vehicle->features) }} özellik
                         </span>
                     </div>
@@ -702,7 +702,7 @@
                     <div class="space-y-6">
                         @foreach($featureGroups as $category => $features)
                             <div>
-                                <h3 class="text-sm font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wide mb-3 pb-1 border-b border-gray-100 dark:border-gray-700">
+                                <h3 class="text-sm font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wide mb-3 pb-1 border-b border-gray-100 dark:border-[#333333]">
                                     {{ $category }}
                                 </h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -721,7 +721,7 @@
                 </div>
             @elseif(is_array($vehicle->features) && count($vehicle->features) > 0)
                 {{-- Fallback: catalog sorgusu başarısız olursa düz liste --}}
-                <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl p-8 mb-8 border border-gray-100 dark:border-gray-800 transition-colors duration-200">
+                <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl p-8 mb-8 border border-gray-100 dark:border-[#333333] transition-colors duration-200">
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Donanımlar</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         @foreach($vehicle->features as $feature)
@@ -737,7 +737,7 @@
             @endif
             
             <!-- Açıklama (En Altta) -->
-            <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl border border-gray-100 dark:border-gray-800 p-8 transition-colors duration-200">
+            <div class="bg-white dark:bg-[#252525] rounded-2xl shadow-xl dark:shadow-2xl border border-gray-100 dark:border-[#333333] p-8 transition-colors duration-200">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Açıklama</h2>
                 <div class="text-gray-700 dark:text-gray-300 leading-relaxed">
                     {{ $vehicle->description ?? 'Açıklama bulunmamaktadır.' }}

@@ -151,7 +151,7 @@
     }
     
     .dark .blog-content {
-        color: #d1d5db; /* gray-300 */
+        color: #d4d4d8; /* gray-300 */
     }
     
     .blog-content h1,
@@ -178,7 +178,7 @@
     }
     
     .dark .blog-content p {
-        color: #d1d5db !important; /* gray-300 */
+        color: #d4d4d8 !important; /* gray-300 */
     }
     
     .blog-content a {
@@ -209,7 +209,7 @@
     
     .dark .blog-content ul,
     .dark .blog-content ol {
-        color: #d1d5db !important; /* gray-300 */
+        color: #d4d4d8 !important; /* gray-300 */
     }
     
     .blog-content li {
@@ -217,7 +217,7 @@
     }
     
     .dark .blog-content li {
-        color: #d1d5db !important; /* gray-300 */
+        color: #d4d4d8 !important; /* gray-300 */
     }
     
     .blog-content strong,
@@ -238,7 +238,7 @@
     
     .dark .blog-content em,
     .dark .blog-content i {
-        color: #d1d5db !important; /* gray-300 */
+        color: #d4d4d8 !important; /* gray-300 */
     }
     
     .blog-content blockquote {
@@ -251,7 +251,7 @@
     }
     
     .dark .blog-content blockquote {
-        color: #d1d5db !important; /* gray-300 */
+        color: #d4d4d8 !important; /* gray-300 */
     }
     
     .blog-content blockquote p {
@@ -259,7 +259,7 @@
     }
     
     .dark .blog-content blockquote p {
-        color: #d1d5db !important; /* gray-300 */
+        color: #d4d4d8 !important; /* gray-300 */
     }
     
     .blog-content code {
@@ -293,7 +293,7 @@
 
     .blog-content table th,
     .blog-content table td {
-        border: 1px solid #d1d5db;
+        border: 1px solid #d4d4d8;
         padding: 0.5rem 1rem;
         color: #111827;
     }
@@ -381,7 +381,7 @@
 
 @section('content')
 <!-- Breadcrumbs -->
-<section class="bg-white dark:bg-[#1e1e1e] border-b border-gray-200 dark:border-gray-800 py-4">
+<section class="bg-white dark:bg-[#1e1e1e] border-b border-gray-200 dark:border-[#333333] py-4">
     <div class="container-custom">
         <nav class="flex items-center space-x-2 text-sm">
             <a href="{{ route('home') }}" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Anasayfa</a>
@@ -457,7 +457,7 @@
                 </div>
 
                 <!-- Share Buttons -->
-                <div class="border-t border-gray-200 dark:border-gray-800 pt-8 mb-12">
+                <div class="border-t border-gray-200 dark:border-[#333333] pt-8 mb-12">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Paylaş</h3>
                     <div class="flex items-center gap-4">
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('blog.show', $post->slug)) }}" 
@@ -497,11 +497,11 @@
 
                 <!-- Related Posts -->
                 @if($relatedPosts->count() > 0)
-                <div class="border-t border-gray-200 dark:border-gray-800 pt-8">
+                <div class="border-t border-gray-200 dark:border-[#333333] pt-8">
                     <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">İlgili Yazılar</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         @foreach($relatedPosts as $related)
-                            <a href="{{ route('blog.show', $related->slug) }}" class="related-post-card block bg-white dark:bg-[#252525] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+                            <a href="{{ route('blog.show', $related->slug) }}" class="related-post-card block bg-white dark:bg-[#252525] rounded-xl border border-gray-200 dark:border-[#333333] overflow-hidden">
                                 @if($related->featured_image)
                                     <img src="{{ $related->featured_image }}" alt="{{ $related->title }}" class="w-full h-40 object-cover">
                                 @else
@@ -530,7 +530,7 @@
             <aside class="lg:col-span-1">
                 <!-- Recent Posts -->
                 @if($recentPosts->count() > 0)
-                <div class="sidebar-sticky bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-gray-800 p-6 mb-6 sticky top-24">
+                <div class="sidebar-sticky bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-[#333333] p-6 mb-6 sticky top-24">
                     <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Son Yazılar</h3>
                     <div class="space-y-4">
                         @foreach($recentPosts as $recent)

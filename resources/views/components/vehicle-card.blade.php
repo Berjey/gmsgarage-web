@@ -1,8 +1,8 @@
 @props(['vehicle'])
 
-<div class="card-vehicle group bg-white dark:bg-[#252525] rounded-2xl shadow-lg dark:shadow-xl border-2 border-transparent dark:border-gray-800 transition-all duration-300 flex flex-col h-full hover:border-primary-600 dark:hover:border-primary-500 hover:shadow-2xl hover:-translate-y-1">
+<div class="card-vehicle group bg-white dark:bg-[#252525] rounded-2xl shadow-lg dark:shadow-xl border-2 border-transparent dark:border-[#333333] transition-all duration-300 flex flex-col h-full hover:border-primary-600 dark:hover:border-primary-500 hover:shadow-2xl hover:-translate-y-1">
     <!-- Temsili Görsel Bölümü -->
-        <div class="relative h-56 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 overflow-hidden rounded-t-2xl">
+        <div class="relative h-56 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 dark:from-[#2a2a2a] dark:via-[#1e1e1e] dark:to-[#2a2a2a] overflow-hidden rounded-t-2xl">
             @if(count($vehicle->all_images) > 0)
                 <!-- Gerçek Görsel Varsa -->
                 <img src="{{ $vehicle->all_images[0] }}" 
@@ -80,7 +80,7 @@
             </div>
             
             <!-- Özellikler -->
-            <div class="grid grid-cols-2 gap-3 mb-4 pb-4 border-b border-gray-100 dark:border-gray-800">
+            <div class="grid grid-cols-2 gap-3 mb-4 pb-4 border-b border-gray-100 dark:border-[#333333]">
                 @if($vehicle->year)
                 <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
                     {{-- takvim / yıl ikonu --}}

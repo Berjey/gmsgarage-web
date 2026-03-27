@@ -274,7 +274,7 @@
 </section>
 
 <!-- Breadcrumbs -->
-<section class="bg-white dark:bg-[#1e1e1e] border-b border-gray-200 dark:border-gray-800 py-4">
+<section class="bg-white dark:bg-[#1e1e1e] border-b border-gray-200 dark:border-[#333333] py-4">
     <div class="container-custom">
         <nav class="flex items-center space-x-2 text-sm">
             <a href="{{ route('home') }}" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Anasayfa</a>
@@ -295,7 +295,7 @@
             <!-- Sidebar -->
             <aside class="lg:col-span-1">
                 <!-- Categories -->
-                <div class="bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-gray-800 p-6 mb-6 sidebar-item">
+                <div class="bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-[#333333] p-6 mb-6 sidebar-item">
                     <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Kategoriler</h3>
                     <ul class="space-y-2">
                         <li>
@@ -317,7 +317,7 @@
 
                 <!-- Featured Posts -->
                 @if($featuredPosts->count() > 0)
-                <div class="bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-gray-800 p-6 sidebar-item" style="animation-delay: 0.2s;">
+                <div class="bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-[#333333] p-6 sidebar-item" style="animation-delay: 0.2s;">
                     <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Öne Çıkanlar</h3>
                     <div class="space-y-4">
                         @foreach($featuredPosts as $index => $featured)
@@ -353,7 +353,7 @@
                 @if($posts->count() > 0)
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         @foreach($posts as $index => $post)
-                            <article class="blog-card-wrapper blog-card bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden" style="animation-delay: {{ ($index % 6) * 0.1 }}s;">
+                            <article class="blog-card-wrapper blog-card bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-[#333333] overflow-hidden" style="animation-delay: {{ ($index % 6) * 0.1 }}s;">
                                 <a href="{{ route('blog.show', $post->slug) }}" class="block">
                                     @if($post->featured_image)
                                         <div class="relative h-48 overflow-hidden">

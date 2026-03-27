@@ -297,7 +297,7 @@
                     </div>
                     
                     <!-- Şeffaf Bilgilendirme -->
-                    <div class="bg-white dark:bg-[#252525] rounded-2xl p-8 shadow-md dark:shadow-xl dark:border dark:border-gray-800 hover-lift border-2 border-primary-200 dark:border-primary-800/50 group relative overflow-hidden transition-colors duration-200">
+                    <div class="bg-white dark:bg-[#252525] rounded-2xl p-8 shadow-md dark:shadow-xl dark:border dark:border-[#333333] hover-lift border-2 border-primary-200 dark:border-primary-800/50 group relative overflow-hidden transition-colors duration-200">
                         <div class="absolute inset-0 shimmer-effect opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 glow-effect relative z-10">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -312,7 +312,7 @@
                     </div>
                     
                     <!-- Seçkin Araç Portföyü -->
-                    <div class="bg-white dark:bg-[#252525] rounded-2xl p-8 shadow-md dark:shadow-xl dark:border dark:border-gray-800 hover-lift border-2 border-primary-200 dark:border-primary-800/50 group relative overflow-hidden transition-colors duration-200">
+                    <div class="bg-white dark:bg-[#252525] rounded-2xl p-8 shadow-md dark:shadow-xl dark:border dark:border-[#333333] hover-lift border-2 border-primary-200 dark:border-primary-800/50 group relative overflow-hidden transition-colors duration-200">
                         <div class="absolute inset-0 shimmer-effect opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 glow-effect relative z-10">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -326,7 +326,7 @@
                     </div>
                     
                     <!-- Müşteri Odaklı Hizmet -->
-                    <div class="bg-white dark:bg-[#252525] rounded-2xl p-8 shadow-md dark:shadow-xl dark:border dark:border-gray-800 hover-lift border-2 border-primary-200 dark:border-primary-800/50 group relative overflow-hidden transition-colors duration-200">
+                    <div class="bg-white dark:bg-[#252525] rounded-2xl p-8 shadow-md dark:shadow-xl dark:border dark:border-[#333333] hover-lift border-2 border-primary-200 dark:border-primary-800/50 group relative overflow-hidden transition-colors duration-200">
                         <div class="absolute inset-0 shimmer-effect opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 glow-effect relative z-10">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -423,7 +423,7 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Vizyon -->
-                    <div class="bg-white dark:bg-[#252525] rounded-2xl p-8 md:p-10 shadow-md dark:shadow-xl dark:border dark:border-gray-800 border border-gray-100 hover-lift group transition-colors duration-200">
+                    <div class="bg-white dark:bg-[#252525] rounded-2xl p-8 md:p-10 shadow-md dark:shadow-xl dark:border dark:border-[#333333] border border-gray-100 hover-lift group transition-colors duration-200">
                         <div class="flex items-center gap-4 mb-6">
                             <div class="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900/30 dark:to-primary-800/30 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                                 <svg class="w-8 h-8 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -439,7 +439,7 @@
                     </div>
                     
                     <!-- Misyon -->
-                    <div class="bg-white dark:bg-[#252525] rounded-2xl p-8 md:p-10 shadow-md dark:shadow-xl dark:border dark:border-gray-800 border border-gray-100 hover-lift group transition-colors duration-200">
+                    <div class="bg-white dark:bg-[#252525] rounded-2xl p-8 md:p-10 shadow-md dark:shadow-xl dark:border dark:border-[#333333] border border-gray-100 hover-lift group transition-colors duration-200">
                         <div class="flex items-center gap-4 mb-6">
                             <div class="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900/30 dark:to-primary-800/30 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                                 <svg class="w-8 h-8 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
