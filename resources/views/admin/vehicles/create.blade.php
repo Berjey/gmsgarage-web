@@ -1280,13 +1280,19 @@ $(document).ready(function(){
             url: '/api/arabam/step', method: 'GET',
             data: Object.assign({ step: step }, data),
             success: function(r) {
-                if (r.success && r.data && r.data.Items) {
+                if (r.success && r.data && r.data.Items && r.data.Items.length > 0) {
                     fillCascadeDD(ddId, r.data.Items, placeholder, onSelect);
                 } else {
-                    setCascadeState(ddId, 'Bulunamadı');
+                    setCascadeState(ddId, 'Bu kombinasyon için veri bulunamadı');
                 }
             },
-            error: function() { setCascadeState(ddId, 'Hata oluştu'); }
+            error: function(xhr) {
+                if (xhr.status === 404) {
+                    setCascadeState(ddId, 'Bu kombinasyon için veri bulunamadı');
+                } else {
+                    setCascadeState(ddId, 'Veri yüklenemedi, lütfen tekrar deneyin');
+                }
+            }
         });
     }
 

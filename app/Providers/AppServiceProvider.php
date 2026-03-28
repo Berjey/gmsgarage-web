@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Pagination\Paginator;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,9 +25,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Tüm view'larda $settings erişilebilir olsun (child view @section'larında da)
-        View::share('settings', Cache::remember('app.settings', 60, function () {
-            return Setting::pluck('value', 'key')->toArray();
-        }));
+        if (Schema::hasTable('settings')) {
+            View::share('settings', Cache::remember('app.settings', 60, function () {
+                return Setting::pluck('value', 'key')->toArray();
+            }));
+        } else {
+            View::share('settings', []);
+        }
 
         // Tüm sayfalamada özel pagination view'ını kullan
         Paginator::defaultView('vendor.pagination.default');

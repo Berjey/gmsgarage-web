@@ -159,32 +159,56 @@ class VehicleEvaluationController extends Controller
             }
         }
 
-        // Yedek: DB sync yapılmamışsa arabam.com'dan canlı çek (sadece local/dev ortamında)
+        // Yedek: DB sync yapılmamışsa arabam.com'dan canlı çek
         $cacheKey = 'arabam_step_' . md5(json_encode($request->all()));
 
         $data = Cache::remember($cacheKey, 3600, function () use ($request, $step) {
-            try {
-                $params = ['CurrentStep' => $step];
-                foreach (['brandId' => 'BrandId', 'modelYear' => 'ModelYear', 'modelGroupId' => 'ModelGroupId',
-                          'bodyTypeId' => 'BodyTypeId', 'fuelTypeId' => 'FuelTypeId',
-                          'transmissionTypeId' => 'TransmissionTypeId', 'modelId' => 'ModelId'] as $reqKey => $apiKey) {
-                    if ($request->get($reqKey)) $params[$apiKey] = $request->get($reqKey);
-                }
+            $userAgents = [
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            ];
 
-                $response = Http::timeout(15)
-                    ->withOptions(['verify' => true])
-                    ->withHeaders(['Accept' => 'application/json', 'User-Agent' => 'Mozilla/5.0'])
-                    ->get('https://www.arabam.com/PriceOffer/step-definition', $params);
+            for ($attempt = 0; $attempt < 3; $attempt++) {
+                try {
+                    $params = ['CurrentStep' => $step];
+                    foreach (['brandId' => 'BrandId', 'modelYear' => 'ModelYear', 'modelGroupId' => 'ModelGroupId',
+                              'bodyTypeId' => 'BodyTypeId', 'fuelTypeId' => 'FuelTypeId',
+                              'transmissionTypeId' => 'TransmissionTypeId', 'modelId' => 'ModelId'] as $reqKey => $apiKey) {
+                        if ($request->get($reqKey)) $params[$apiKey] = $request->get($reqKey);
+                    }
 
-                if ($response->successful()) {
-                    $json = $response->json();
-                    if (isset($json['Data'])) return $json['Data'];
+                    $response = Http::timeout(20)
+                        ->withOptions(['verify' => false])
+                        ->withHeaders([
+                            'Accept'           => 'application/json, text/plain, */*',
+                            'Accept-Language'  => 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+                            'User-Agent'       => $userAgents[array_rand($userAgents)],
+                            'Referer'          => 'https://www.arabam.com/fiyat-teklifi',
+                            'Origin'           => 'https://www.arabam.com',
+                            'Sec-Fetch-Dest'   => 'empty',
+                            'Sec-Fetch-Mode'   => 'cors',
+                            'Sec-Fetch-Site'   => 'same-origin',
+                        ])
+                        ->get('https://www.arabam.com/PriceOffer/step-definition', $params);
+
+                    $body = $response->body();
+                    if (str_contains($body, 'Just a moment') || str_contains($body, 'cloudflare') || $response->status() === 403) {
+                        sleep(2 + $attempt);
+                        continue;
+                    }
+
+                    if ($response->successful()) {
+                        $json = $response->json();
+                        if (isset($json['Data'])) return $json['Data'];
+                    }
+                    return null;
+                } catch (\Exception $e) {
+                    \Log::error('Arabam API step error (attempt ' . ($attempt+1) . '): ' . $e->getMessage());
+                    if ($attempt < 2) { sleep(2); continue; }
+                    return null;
                 }
-                return null;
-            } catch (\Exception $e) {
-                \Log::error('Arabam API step error: ' . $e->getMessage());
-                return null;
             }
+            return null;
         });
 
         if ($data) {

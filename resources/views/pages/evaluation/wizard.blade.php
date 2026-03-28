@@ -672,7 +672,7 @@
             <div class="wizard-step active" id="step-1">
 
             <!-- Row 1: Marka | Yıl -->
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-2 gap-4 mb-4" style="position: relative; z-index: 50;">
                 <div>
                     <label class="form-label">Marka *</label>
                     <div class="eval-custom-dropdown" id="marka-dropdown">
@@ -705,7 +705,7 @@
             </div>
 
             <!-- Row 2: Model | Gövde Tipi -->
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-2 gap-4 mb-4" style="position: relative; z-index: 40;">
                 <div>
                     <label class="form-label">Model *</label>
                     <div class="eval-custom-dropdown disabled" id="model-dropdown">
@@ -738,7 +738,7 @@
             </div>
 
             <!-- Row 3: Yakıt Tipi | Vites Tipi -->
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-2 gap-4 mb-4" style="position: relative; z-index: 30;">
                 <div>
                     <label class="form-label">Yakıt Tipi</label>
                     <div class="eval-custom-dropdown disabled" id="yakit-dropdown">
@@ -770,7 +770,7 @@
             </div>
 
             <!-- Row 4: Versiyon (full width) -->
-            <div class="mb-4">
+            <div class="mb-4" style="position: relative; z-index: 25;">
                 <label class="form-label">Versiyon</label>
                 <div class="eval-custom-dropdown disabled" id="versiyon-dropdown">
                     <button type="button" class="eval-custom-dropdown-trigger" data-value="" data-id="">
@@ -786,13 +786,13 @@
             </div>
 
             <!-- Row 5: Kilometre | Renk -->
-            <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="grid grid-cols-2 gap-4 mb-6" style="position: relative; z-index: 20;">
                 <div>
                     <label class="form-label">Kilometre *</label>
                     <input type="text" name="kilometre" id="kilometre-input" class="form-input" placeholder="Kilometre giriniz" disabled required>
                     <span id="kilometre-error" class="hidden mt-1 flex items-center gap-1 text-xs text-red-500"><svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg><span></span></span>
                 </div>
-                <div>
+                <div style="position: relative; z-index: 30;">
                     <label class="form-label">Renk <span id="renk-label-optional" class="text-gray-400 text-xs font-normal">(isteğe bağlı)</span></label>
                     <div class="eval-custom-dropdown disabled" id="renk-dropdown">
                         <button type="button" class="eval-custom-dropdown-trigger" data-value="" data-id="">
@@ -803,8 +803,6 @@
                         </button>
                         <div class="eval-custom-dropdown-panel"></div>
                     </div>
-                    {{-- Manuel renk girişi: dropdown boş kalırsa kullanıcı yazabilir --}}
-                    <input type="text" id="renk-manuel-input" class="form-input mt-2 hidden" placeholder="Veya rengi manuel yazın..." maxlength="255">
                     <input type="hidden" name="renk" id="renk-input" value="">
                     <input type="hidden" name="renk_id" id="renk-id" value="">
                     <span id="renk-error" class="hidden mt-1 flex items-center gap-1 text-xs text-red-500"><svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg><span></span></span>
@@ -812,7 +810,7 @@
             </div>
 
             <!-- Step 1 Button -->
-            <button type="button" class="btn-submit" onclick="goToStep2()">
+            <button type="button" class="btn-submit" style="position: relative; z-index: 1;" onclick="goToStep2()">
                 Devam Et
             </button>
             </div><!-- End Step 1 -->
@@ -1034,7 +1032,7 @@ document.addEventListener('DOMContentLoaded', function() {
             trigger.addEventListener('click', function(e) {
                 if (dropdown.classList.contains('disabled')) return;
                 e.stopPropagation();
-                
+
                 // Close all other dropdowns
                 document.querySelectorAll('.eval-custom-dropdown').forEach(dd => {
                     if (dd !== dropdown) {
@@ -1042,10 +1040,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         dd.querySelector('.eval-custom-dropdown-panel').classList.remove('open');
                     }
                 });
-                
+
                 // Toggle this dropdown
                 dropdown.classList.toggle('dropdown-open');
                 panel.classList.toggle('open');
+
             });
         }
     }
@@ -1727,24 +1726,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     const firstOption = panel.querySelector('.eval-custom-dropdown-option');
                     if (firstOption) firstOption.click();
                 }
-                // Dropdown yüklendiyse manuel input'u gizle
-                document.getElementById('renk-manuel-input').classList.add('hidden');
-            } else {
-                // Renk verisi gelmedi — manuel giriş inputunu göster
-                document.getElementById('renk-manuel-input').classList.remove('hidden');
-                const manuelInput = document.getElementById('renk-manuel-input');
-                manuelInput.addEventListener('input', function() {
-                    document.getElementById('renk-input').value = this.value;
-                });
             }
         } catch (error) {
             // silently handle
-            // Hata durumunda da manuel giriş göster
-            document.getElementById('renk-manuel-input').classList.remove('hidden');
-            const manuelInput = document.getElementById('renk-manuel-input');
-            manuelInput.addEventListener('input', function() {
-                document.getElementById('renk-input').value = this.value;
-            });
         }
     }
 
