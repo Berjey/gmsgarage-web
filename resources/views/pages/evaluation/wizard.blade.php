@@ -68,6 +68,31 @@
         z-index: 999999 !important;
     }
 
+    /* Açık dropdown'ın parent row z-index'ini yükselt — stacking context sınırını aş */
+    .dropdown-row:has(.eval-custom-dropdown.dropdown-open) {
+        z-index: 999999 !important;
+    }
+
+    /* Renk dropdown: yukarı açılsın (formun en altında olduğu için) */
+    .eval-custom-dropdown.dropdown-up .eval-custom-dropdown-panel {
+        top: auto;
+        bottom: 100%;
+        margin-top: 0;
+        margin-bottom: 8px;
+        transform: translateY(15px) scale(0.95);
+        pointer-events: none;
+    }
+
+    .eval-custom-dropdown.dropdown-up .eval-custom-dropdown-panel.open {
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+    }
+
+    /* Dropdown-up açıkken overlay arka planı engelle */
+    .eval-custom-dropdown.dropdown-up.dropdown-open {
+        z-index: 999999 !important;
+    }
+
     /* Light Mode Trigger */
     .eval-custom-dropdown-trigger {
         width: 100%;
@@ -143,20 +168,23 @@
         background-color: #ffffff;
         opacity: 0;
         visibility: hidden;
+        pointer-events: none;
         z-index: 999999;
         border-radius: 12px;
         border: 2px solid rgba(220, 38, 38, 0.2);
         box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(220, 38, 38, 0.1);
         transform: translateY(-15px) scale(0.95);
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                    visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         max-height: 320px;
         overflow-y: auto;
-        backdrop-filter: blur(10px);
     }
 
     .eval-custom-dropdown-panel.open {
         opacity: 1;
         visibility: visible;
+        pointer-events: auto;
         transform: translateY(0) scale(1);
     }
 
@@ -291,7 +319,6 @@
         box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6),
                     0 0 0 1px rgba(220, 38, 38, 0.2),
                     inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
     }
 
     /* Dark Mode Scrollbar */
@@ -360,6 +387,46 @@
     .dark .eval-custom-dropdown.disabled .eval-custom-dropdown-trigger {
         background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
     }
+
+    /* Auto-select flash animasyonu */
+    @keyframes autoSelectFlash {
+        0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+        50% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.2); }
+        100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+    .auto-selected .eval-custom-dropdown-trigger {
+        animation: autoSelectFlash 0.6s ease;
+        border-color: #22c55e !important;
+    }
+    .dark .auto-selected .eval-custom-dropdown-trigger {
+        border-color: #22c55e !important;
+    }
+
+    /* Manuel giriş toggle */
+    .manual-toggle-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 1rem;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #6b7280;
+        background: transparent;
+        border: 1px dashed #d1d5db;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .manual-toggle-btn:hover { color: #dc2626; border-color: #dc2626; }
+    .manual-toggle-btn.active { color: #dc2626; border-color: #dc2626; background: #fef2f2; }
+    .dark .manual-toggle-btn { color: #9ca3af; border-color: #4b5563; }
+    .dark .manual-toggle-btn:hover { color: #fca5a5; border-color: #dc2626; }
+    .dark .manual-toggle-btn.active { color: #fca5a5; border-color: #dc2626; background: rgba(220, 38, 38, 0.1); }
+
+    .manual-section { display: none; }
+    .manual-section.active { display: block; }
+    .cascade-section.hidden { display: none; }
 
     .wizard-step { display: none; }
     .wizard-step.active { display: block; }
@@ -671,8 +738,17 @@
             <!-- STEP 1: Araç Bilgileri -->
             <div class="wizard-step active" id="step-1">
 
+            <!-- Manuel Giriş Toggle -->
+            <button type="button" class="manual-toggle-btn" id="manualToggleBtn" onclick="toggleManualMode()">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                <span id="manualToggleText">Aracımı listede bulamıyorum</span>
+            </button>
+
+            <!-- Cascade (Dropdown) Bölümü -->
+            <div id="cascadeSection" class="cascade-section">
+
             <!-- Row 1: Marka | Yıl -->
-            <div class="grid grid-cols-2 gap-4 mb-4" style="position: relative; z-index: 50;">
+            <div class="grid grid-cols-2 gap-4 mb-4 dropdown-row" style="position: relative; z-index: 50;">
                 <div>
                     <label class="form-label">Marka *</label>
                     <div class="eval-custom-dropdown" id="marka-dropdown">
@@ -705,7 +781,7 @@
             </div>
 
             <!-- Row 2: Model | Gövde Tipi -->
-            <div class="grid grid-cols-2 gap-4 mb-4" style="position: relative; z-index: 40;">
+            <div class="grid grid-cols-2 gap-4 mb-4 dropdown-row" style="position: relative; z-index: 40;">
                 <div>
                     <label class="form-label">Model *</label>
                     <div class="eval-custom-dropdown disabled" id="model-dropdown">
@@ -738,7 +814,7 @@
             </div>
 
             <!-- Row 3: Yakıt Tipi | Vites Tipi -->
-            <div class="grid grid-cols-2 gap-4 mb-4" style="position: relative; z-index: 30;">
+            <div class="grid grid-cols-2 gap-4 mb-4 dropdown-row" style="position: relative; z-index: 30;">
                 <div>
                     <label class="form-label">Yakıt Tipi</label>
                     <div class="eval-custom-dropdown disabled" id="yakit-dropdown">
@@ -770,7 +846,7 @@
             </div>
 
             <!-- Row 4: Versiyon (full width) -->
-            <div class="mb-4" style="position: relative; z-index: 25;">
+            <div class="mb-4 dropdown-row" style="position: relative; z-index: 25;">
                 <label class="form-label">Versiyon</label>
                 <div class="eval-custom-dropdown disabled" id="versiyon-dropdown">
                     <button type="button" class="eval-custom-dropdown-trigger" data-value="" data-id="">
@@ -786,28 +862,79 @@
             </div>
 
             <!-- Row 5: Kilometre | Renk -->
-            <div class="grid grid-cols-2 gap-4 mb-6" style="position: relative; z-index: 20;">
+            <div class="grid grid-cols-2 gap-4 mb-6 dropdown-row" style="position: relative; z-index: 20;">
                 <div>
                     <label class="form-label">Kilometre *</label>
                     <input type="text" name="kilometre" id="kilometre-input" class="form-input" placeholder="Kilometre giriniz" disabled required>
                     <span id="kilometre-error" class="hidden mt-1 flex items-center gap-1 text-xs text-red-500"><svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg><span></span></span>
                 </div>
-                <div style="position: relative; z-index: 30;">
+                <div>
                     <label class="form-label">Renk <span id="renk-label-optional" class="text-gray-400 text-xs font-normal">(isteğe bağlı)</span></label>
-                    <div class="eval-custom-dropdown disabled" id="renk-dropdown">
+                    <div class="eval-custom-dropdown" id="renk-dropdown">
                         <button type="button" class="eval-custom-dropdown-trigger" data-value="" data-id="">
                             <span class="selected-text placeholder">Renk Seçin</span>
                             <svg class="arrow w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        <div class="eval-custom-dropdown-panel"></div>
+                        <div class="eval-custom-dropdown-panel">
+                            @foreach($carColors as $color)
+                                <div class="eval-custom-dropdown-option" data-value="{{ $color->name }}" data-id="{{ $color->arabam_id }}">{{ $color->name }}</div>
+                            @endforeach
+                        </div>
                     </div>
                     <input type="hidden" name="renk" id="renk-input" value="">
                     <input type="hidden" name="renk_id" id="renk-id" value="">
                     <span id="renk-error" class="hidden mt-1 flex items-center gap-1 text-xs text-red-500"><svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg><span></span></span>
                 </div>
             </div>
+
+            </div><!-- End Cascade Section -->
+
+            <!-- Manuel Giriş Bölümü -->
+            <div id="manualSection" class="manual-section">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="form-label">Marka *</label>
+                        <input type="text" id="manual-marka" class="form-input" placeholder="Örn: BMW, Mercedes...">
+                    </div>
+                    <div>
+                        <label class="form-label">Model Yılı *</label>
+                        <input type="number" id="manual-yil" class="form-input" placeholder="Örn: 2020" min="1970" max="{{ date('Y') + 1 }}">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="form-label">Model *</label>
+                        <input type="text" id="manual-model" class="form-input" placeholder="Örn: 320i, C200...">
+                    </div>
+                    <div>
+                        <label class="form-label">Kasa Tipi</label>
+                        <input type="text" id="manual-govde" class="form-input" placeholder="Örn: Sedan, SUV...">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="form-label">Yakıt Tipi</label>
+                        <input type="text" id="manual-yakit" class="form-input" placeholder="Örn: Benzin, Dizel...">
+                    </div>
+                    <div>
+                        <label class="form-label">Vites Tipi</label>
+                        <input type="text" id="manual-vites" class="form-input" placeholder="Örn: Otomatik, Manuel...">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="form-label">Kilometre *</label>
+                        <input type="text" id="manual-km" class="form-input" placeholder="Kilometre giriniz">
+                    </div>
+                    <div>
+                        <label class="form-label">Renk <span class="text-gray-400 text-xs font-normal">(isteğe bağlı)</span></label>
+                        <input type="text" id="manual-renk" class="form-input" placeholder="Örn: Siyah, Beyaz...">
+                    </div>
+                </div>
+                <span id="manual-error" class="hidden mb-4 flex items-center gap-1 text-xs text-red-500"><svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg><span></span></span>
+            </div><!-- End Manuel Section -->
 
             <!-- Step 1 Button -->
             <button type="button" class="btn-submit" style="position: relative; z-index: 1;" onclick="goToStep2()">
@@ -1071,6 +1198,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load brands on page load
     loadBrands();
+    initRenkOptions();
 
     // If brand is pre-selected from URL, load years
     if (selectedBrandId) {
@@ -1120,6 +1248,8 @@ document.addEventListener('DOMContentLoaded', function() {
         resetFrom('govde');
 
         if (selectedModelId) {
+            // Model seçildiğinde kilometre alanını aktif et
+            document.getElementById('kilometre-input').disabled = false;
             loadGovdeTipleri(selectedBrandId, selectedYear, selectedModelId);
             document.getElementById('govde-dropdown').classList.remove('disabled');
         }
@@ -1173,9 +1303,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('versiyon-id').value = selectedVersiyonId || '';
 
         if (selectedVersiyonId) {
-            loadRenkler(selectedBrandId, selectedYear, selectedModelId, selectedGovdeId, selectedYakitId, selectedVitesId, selectedVersiyonId);
             document.getElementById('kilometre-input').disabled = false;
-            document.getElementById('renk-dropdown').classList.remove('disabled');
+            document.getElementById('kilometre-input').focus();
         }
     });
 
@@ -1231,7 +1360,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.getElementById('kilometre-input').disabled = true;
                         break;
                     case 'renk':
-                        resetDropdown('renk', 'Renk Seçin');
+                        // Renk seçimini sıfırla ama listeyi koru (DB'den sabit yükleniyor)
+                        resetRenkSelection();
                         break;
                 }
             });
@@ -1259,6 +1389,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         panel.innerHTML = '';
         dropdown.classList.add('disabled');
+    }
+
+    // Renk seçimini sıfırla (listeyi korur)
+    function resetRenkSelection() {
+        const dropdown = document.getElementById('renk-dropdown');
+        const trigger = dropdown.querySelector('.eval-custom-dropdown-trigger');
+        const selectedText = trigger.querySelector('.selected-text');
+        selectedText.textContent = 'Renk Seçin';
+        selectedText.classList.add('placeholder');
+        trigger.setAttribute('data-value', '');
+        trigger.setAttribute('data-id', '');
+        document.getElementById('renk-input').value = '';
+        document.getElementById('renk-id').value = '';
+        dropdown.querySelector('.eval-custom-dropdown-panel').querySelectorAll('.eval-custom-dropdown-option').forEach(opt => opt.classList.remove('selected'));
     }
 
     // API functions
@@ -1376,7 +1520,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Auto-select if only one item
                 if (result.data.Items.length === 1) {
                     const firstOption = panel.querySelector('.eval-custom-dropdown-option');
-                    if (firstOption) firstOption.click();
+                    if (firstOption) {
+                        firstOption.click();
+                        // Görsel feedback
+                        const dd = firstOption.closest('.eval-custom-dropdown');
+                        dd.classList.add('auto-selected');
+                        setTimeout(() => { dd.classList.remove('auto-selected'); dd.querySelector('.eval-custom-dropdown-trigger').style.borderColor = ''; }, 800);
+                    }
                 }
             }
         } catch (error) {
@@ -1434,7 +1584,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Auto-select if only one item
                 if (result.data.Items.length === 1) {
                     const firstOption = panel.querySelector('.eval-custom-dropdown-option');
-                    if (firstOption) firstOption.click();
+                    if (firstOption) {
+                        firstOption.click();
+                        // Görsel feedback
+                        const dd = firstOption.closest('.eval-custom-dropdown');
+                        dd.classList.add('auto-selected');
+                        setTimeout(() => { dd.classList.remove('auto-selected'); dd.querySelector('.eval-custom-dropdown-trigger').style.borderColor = ''; }, 800);
+                    }
                 }
             }
         } catch (error) {
@@ -1492,7 +1648,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Auto-select if only one item
                 if (result.data.Items.length === 1) {
                     const firstOption = panel.querySelector('.eval-custom-dropdown-option');
-                    if (firstOption) firstOption.click();
+                    if (firstOption) {
+                        firstOption.click();
+                        // Görsel feedback
+                        const dd = firstOption.closest('.eval-custom-dropdown');
+                        dd.classList.add('auto-selected');
+                        setTimeout(() => { dd.classList.remove('auto-selected'); dd.querySelector('.eval-custom-dropdown-trigger').style.borderColor = ''; }, 800);
+                    }
                 }
             }
         } catch (error) {
@@ -1550,7 +1712,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Auto-select if only one item
                 if (result.data.Items.length === 1) {
                     const firstOption = panel.querySelector('.eval-custom-dropdown-option');
-                    if (firstOption) firstOption.click();
+                    if (firstOption) {
+                        firstOption.click();
+                        // Görsel feedback
+                        const dd = firstOption.closest('.eval-custom-dropdown');
+                        dd.classList.add('auto-selected');
+                        setTimeout(() => { dd.classList.remove('auto-selected'); dd.querySelector('.eval-custom-dropdown-trigger').style.borderColor = ''; }, 800);
+                    }
                 }
             }
         } catch (error) {
@@ -1608,7 +1776,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Auto-select if only one item
                 if (result.data.Items.length === 1) {
                     const firstOption = panel.querySelector('.eval-custom-dropdown-option');
-                    if (firstOption) firstOption.click();
+                    if (firstOption) {
+                        firstOption.click();
+                        // Görsel feedback
+                        const dd = firstOption.closest('.eval-custom-dropdown');
+                        dd.classList.add('auto-selected');
+                        setTimeout(() => { dd.classList.remove('auto-selected'); dd.querySelector('.eval-custom-dropdown-trigger').style.borderColor = ''; }, 800);
+                    }
                 }
             }
         } catch (error) {
@@ -1666,7 +1840,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Auto-select if only one item
                 if (result.data.Items.length === 1) {
                     const firstOption = panel.querySelector('.eval-custom-dropdown-option');
-                    if (firstOption) firstOption.click();
+                    if (firstOption) {
+                        firstOption.click();
+                        // Görsel feedback
+                        const dd = firstOption.closest('.eval-custom-dropdown');
+                        dd.classList.add('auto-selected');
+                        setTimeout(() => { dd.classList.remove('auto-selected'); dd.querySelector('.eval-custom-dropdown-trigger').style.borderColor = ''; }, 800);
+                    }
                 }
             }
         } catch (error) {
@@ -1674,62 +1854,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function loadRenkler(brandId, year, modelIdParam, bodyTypeId, fuelTypeId, transmissionId, versionId) {
-        try {
-            const response = await fetch(`/api/arabam/step?step=70&brandId=${brandId}&modelYear=${year}&modelGroupId=${modelIdParam}&bodyTypeId=${bodyTypeId}&fuelTypeId=${fuelTypeId}&transmissionTypeId=${transmissionId}&modelId=${versionId}`);
-            const result = await response.json();
+    function initRenkOptions() {
+        const renkDropdown = document.getElementById('renk-dropdown');
+        const panel = renkDropdown.querySelector('.eval-custom-dropdown-panel');
 
-            if (result.success && result.data && result.data.Items) {
-                const renkDropdown = document.getElementById('renk-dropdown');
-                const panel = renkDropdown.querySelector('.eval-custom-dropdown-panel');
-                panel.innerHTML = '';
-                
-                result.data.Items.forEach(item => {
-                    const option = document.createElement('div');
-                    option.className = 'eval-custom-dropdown-option';
-                    option.textContent = item.Name;
-                    option.setAttribute('data-value', item.Name);
-                    option.setAttribute('data-id', item.Id);
-                    
-                    option.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const trigger = renkDropdown.querySelector('.eval-custom-dropdown-trigger');
-                        const selectedText = trigger.querySelector('.selected-text');
-                        
-                        selectedText.textContent = item.Name;
-                        selectedText.classList.remove('placeholder');
-                        
-                        document.getElementById('renk-input').value = item.Name;
-                        document.getElementById('renk-id').value = item.Id;
-                        
-                        panel.querySelectorAll('.eval-custom-dropdown-option').forEach(opt => opt.classList.remove('selected'));
-                        option.classList.add('selected');
-                        
-                        renkDropdown.classList.remove('dropdown-open');
-                        panel.classList.remove('open');
-                        
-                        // Dispatch custom event
-                        const event = new CustomEvent('dropdown-change', { 
-                            detail: { value: item.Name, id: item.Id } 
-                        });
-                        renkDropdown.dispatchEvent(event);
-                    });
-                    
-                    panel.appendChild(option);
+        panel.querySelectorAll('.eval-custom-dropdown-option').forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const value = this.getAttribute('data-value');
+                const id = this.getAttribute('data-id');
+                const trigger = renkDropdown.querySelector('.eval-custom-dropdown-trigger');
+                const selectedText = trigger.querySelector('.selected-text');
+
+                selectedText.textContent = value;
+                selectedText.classList.remove('placeholder');
+
+                document.getElementById('renk-input').value = value;
+                document.getElementById('renk-id').value = id;
+
+                panel.querySelectorAll('.eval-custom-dropdown-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+
+                renkDropdown.classList.remove('dropdown-open');
+                panel.classList.remove('open');
+
+                const event = new CustomEvent('dropdown-change', {
+                    detail: { value: value, id: id }
                 });
-                
-                // Enable dropdown
-                renkDropdown.classList.remove('disabled');
-
-                // Auto-select if only one item
-                if (result.data.Items.length === 1) {
-                    const firstOption = panel.querySelector('.eval-custom-dropdown-option');
-                    if (firstOption) firstOption.click();
-                }
-            }
-        } catch (error) {
-            // silently handle
-        }
+                renkDropdown.dispatchEvent(event);
+            });
+        });
     }
 
     // Tramer dropdown event listener
@@ -2120,46 +2274,104 @@ document.addEventListener('DOMContentLoaded', function() {
 // Step navigation functions
 let currentStep = 1;
 
+let isManualMode = false;
+
+function toggleManualMode() {
+    isManualMode = !isManualMode;
+    const btn = document.getElementById('manualToggleBtn');
+    const text = document.getElementById('manualToggleText');
+    const cascadeEl = document.getElementById('cascadeSection');
+    const manualEl = document.getElementById('manualSection');
+
+    if (isManualMode) {
+        cascadeEl.classList.add('hidden');
+        manualEl.classList.add('active');
+        btn.classList.add('active');
+        text.textContent = 'Listeden seçmek istiyorum';
+    } else {
+        cascadeEl.classList.remove('hidden');
+        manualEl.classList.remove('active');
+        btn.classList.remove('active');
+        text.textContent = 'Aracımı listede bulamıyorum';
+    }
+}
+
 function goToStep(step) {
     // Validate before moving forward
     if (step > currentStep) {
         if (currentStep === 1 && step >= 2) {
-            const markaInput     = document.getElementById('marka-input');
-            const yilInput       = document.getElementById('yil-input');
-            const modelInput     = document.getElementById('model-input');
-            const kilometreInput = document.getElementById('kilometre-input');
-            const renkInput      = document.getElementById('renk-input');
 
-            // Clear previous step-1 errors
-            ['marka','yil','model','kilometre','renk'].forEach(function(f) {
-                const trigger = document.getElementById(f + '-dropdown')?.querySelector('.eval-custom-dropdown-trigger');
-                clearFieldError(f === 'kilometre' ? document.getElementById('kilometre-input') : (trigger || null), f + '-error');
-            });
+            if (isManualMode) {
+                // Manuel mod validasyonu
+                const manualError = document.getElementById('manual-error');
+                const manualErrorText = manualError.querySelector('span:last-child');
+                manualError.classList.add('hidden');
 
-            let hasError = false;
+                let hasError = false;
+                const marka = document.getElementById('manual-marka').value.trim();
+                const yil   = document.getElementById('manual-yil').value.trim();
+                const model = document.getElementById('manual-model').value.trim();
+                const km    = document.getElementById('manual-km').value.trim();
 
-            if (!markaInput.value) {
-                showFieldError(document.getElementById('marka-dropdown').querySelector('.eval-custom-dropdown-trigger'), 'marka-error', 'Lütfen marka seçin.');
-                hasError = true;
-            }
-            if (!yilInput.value) {
-                showFieldError(document.getElementById('yil-dropdown').querySelector('.eval-custom-dropdown-trigger'), 'yil-error', 'Lütfen yıl seçin.');
-                hasError = true;
-            }
-            if (!modelInput.value) {
-                showFieldError(document.getElementById('model-dropdown').querySelector('.eval-custom-dropdown-trigger'), 'model-error', 'Lütfen model seçin.');
-                hasError = true;
-            }
-            if (!kilometreInput.value.trim()) {
-                showFieldError(kilometreInput, 'kilometre-error', 'Lütfen kilometre girin.');
-                hasError = true;
-            }
-            // Renk isteğe bağlı — API veya manuel giriş yüklenmemiş olabilir, engelleme yapma
+                if (!marka || !yil || !model || !km) {
+                    manualErrorText.textContent = 'Marka, yıl, model ve kilometre alanları zorunludur.';
+                    manualError.classList.remove('hidden');
+                    hasError = true;
+                }
 
-            if (hasError) {
-                const firstError = document.querySelector('#step-1 [id$="-error"]:not(.hidden)');
-                if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
+                if (hasError) {
+                    manualError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+
+                // Manuel değerleri hidden input'lara aktar
+                document.getElementById('marka-input').value = marka;
+                document.getElementById('yil-input').value = yil;
+                document.getElementById('model-input').value = model;
+                document.getElementById('kilometre-input').value = km;
+                document.getElementById('govde-input').value = document.getElementById('manual-govde').value.trim();
+                document.getElementById('yakit-input').value = document.getElementById('manual-yakit').value.trim();
+                document.getElementById('vites-input').value = document.getElementById('manual-vites').value.trim();
+                document.getElementById('renk-input').value = document.getElementById('manual-renk').value.trim();
+
+            } else {
+                // Cascade mod validasyonu
+                const markaInput     = document.getElementById('marka-input');
+                const yilInput       = document.getElementById('yil-input');
+                const modelInput     = document.getElementById('model-input');
+                const kilometreInput = document.getElementById('kilometre-input');
+
+                // Clear previous step-1 errors
+                ['marka','yil','model','kilometre','renk'].forEach(function(f) {
+                    const trigger = document.getElementById(f + '-dropdown')?.querySelector('.eval-custom-dropdown-trigger');
+                    clearFieldError(f === 'kilometre' ? document.getElementById('kilometre-input') : (trigger || null), f + '-error');
+                });
+
+                let hasError = false;
+
+                if (!markaInput.value) {
+                    showFieldError(document.getElementById('marka-dropdown').querySelector('.eval-custom-dropdown-trigger'), 'marka-error', 'Lütfen marka seçin.');
+                    hasError = true;
+                }
+                if (!yilInput.value) {
+                    showFieldError(document.getElementById('yil-dropdown').querySelector('.eval-custom-dropdown-trigger'), 'yil-error', 'Lütfen yıl seçin.');
+                    hasError = true;
+                }
+                if (!modelInput.value) {
+                    showFieldError(document.getElementById('model-dropdown').querySelector('.eval-custom-dropdown-trigger'), 'model-error', 'Lütfen model seçin.');
+                    hasError = true;
+                }
+                if (!kilometreInput.value.trim()) {
+                    showFieldError(kilometreInput, 'kilometre-error', 'Lütfen kilometre girin.');
+                    hasError = true;
+                }
+                // Renk isteğe bağlı
+
+                if (hasError) {
+                    const firstError = document.querySelector('#step-1 [id$="-error"]:not(.hidden)');
+                    if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
             }
         }
 

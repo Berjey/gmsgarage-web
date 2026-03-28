@@ -1178,6 +1178,7 @@ $(document).ready(function(){
     // Cascade zincirini belirtilen adımdan sıfırla
     function resetCascadeFrom(step) {
         const chain = [
+            { key: 'year',         placeholder: 'Önce marka seçiniz' },
             { key: 'model',        placeholder: 'Önce marka ve yıl seçiniz' },
             { key: 'bodyType',     placeholder: 'Önce model seçiniz' },
             { key: 'fuelType',     placeholder: 'Önce kasa tipi seçiniz' },
@@ -1189,22 +1190,39 @@ $(document).ready(function(){
             if (s.key === step) found = true;
             if (!found) return;
             setCascadeState(s.key, s.placeholder);
-            cascadeData[s.key + 'Id']   = null;
-            cascadeData[s.key + 'Name'] = null;
+            if (s.key === 'year') { cascadeData.year = null; }
+            else {
+                cascadeData[s.key + 'Id']   = null;
+                cascadeData[s.key + 'Name'] = null;
+            }
             if (s.key === 'model') cascadeData.modelArabamId = null;
         });
     }
 
     // ── YÜKLEME FONKSİYONLARI ────────────────────────────────────────────────
     function loadYears() {
-        const y = new Date().getFullYear();
-        const items = [];
-        for (let i = y + 1; i >= 1990; i--) items.push({ Id: i, Name: String(i) });
-        fillCascadeDD('year', items, 'Yıl Seçiniz', function(sel) {
-            cascadeData.year = sel.value;
-            resetCascadeFrom('model');
-            if (cascadeData.year && cascadeData.brandId) loadModels();
-        });
+        if (!cascadeData.brandArabamId) {
+            // Marka seçilmeden genel yıl listesi göster
+            const y = new Date().getFullYear();
+            const items = [];
+            for (let i = y + 1; i >= 1990; i--) items.push({ Id: i, Name: String(i) });
+            fillCascadeDD('year', items, 'Yıl Seçiniz', function(sel) {
+                cascadeData.year = sel.value;
+                resetCascadeFrom('model');
+                if (cascadeData.year && cascadeData.brandArabamId) loadModels();
+            });
+        } else {
+            // Marka seçildiyse arabam_vehicle_configs'ten yılları çek (step=10)
+            apiStepFill('year', '10',
+                { brandId: cascadeData.brandArabamId },
+                'Yıl Seçiniz',
+                function(sel) {
+                    cascadeData.year = sel.value;
+                    resetCascadeFrom('model');
+                    if (cascadeData.year && cascadeData.brandArabamId) loadModels();
+                }
+            );
+        }
         // old() değerini geri yükle
         const oldYear = '{{ old("year") }}';
         if (oldYear) {
@@ -1230,8 +1248,8 @@ $(document).ready(function(){
                         cascadeData.brandId      = sel.value;
                         cascadeData.brandName    = sel.name;
                         cascadeData.brandArabamId = sel.arabamId;
-                        resetCascadeFrom('model');
-                        if (cascadeData.brandId && cascadeData.year) loadModels();
+                        resetCascadeFrom('year');
+                        loadYears(); // Marka seçildiğinde o markaya ait yılları yükle
                     });
                 } else {
                     const btn = document.getElementById('ddBtn-brand');
@@ -1250,28 +1268,18 @@ $(document).ready(function(){
     }
 
     function loadModels() {
-        // Veritabanından model listesini çek (arabam.com API yerine)
-        setCascadeState('model', 'Yükleniyor...');
-        $.ajax({
-            url: '{{ route("admin.vehicles.api.models") }}', method: 'GET',
-            data: { brandId: cascadeData.brandId },
-            success: function(r) {
-                if (r.success && r.data && r.data.Items && r.data.Items.length > 0) {
-                    fillCascadeDD('model', r.data.Items, 'Model Seçiniz', function(sel) {
-                        cascadeData.modelId       = sel.value;
-                        cascadeData.modelName     = sel.name;
-                        cascadeData.modelArabamId = sel.arabamId;
-                        resetCascadeFrom('bodyType');
-                        loadBodyTypes();
-                    });
-                } else {
-                    setCascadeState('model', 'Model bulunamadı');
-                }
-            },
-            error: function() {
-                setCascadeState('model', 'Yüklenemedi');
+        // arabam_vehicle_configs tablosundan model listesini çek (step=20)
+        apiStepFill('model', '20',
+            { brandId: cascadeData.brandArabamId, modelYear: cascadeData.year },
+            'Model Seçiniz',
+            function(sel) {
+                cascadeData.modelId       = sel.value;
+                cascadeData.modelName     = sel.name;
+                cascadeData.modelArabamId = sel.value; // arabam_vehicle_configs'te Id zaten arabam ID
+                resetCascadeFrom('bodyType');
+                loadBodyTypes();
             }
-        });
+        );
     }
 
     function apiStepFill(ddId, step, data, placeholder, onSelect) {

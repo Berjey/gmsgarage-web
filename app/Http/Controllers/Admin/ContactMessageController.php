@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Services\EmailService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ContactMessageController extends Controller
 {
@@ -173,29 +174,31 @@ class ContactMessageController extends Controller
         if (empty($ids)) {
             return back()->with('error', 'Lütfen en az bir mesaj seçin.');
         }
-        
-        switch ($action) {
-            case 'mark_read':
-                ContactMessage::whereIn('id', $ids)->update([
-                    'is_read' => true,
-                    'read_at' => now(),
-                ]);
-                return back()->with('success', count($ids) . ' mesaj okundu olarak işaretlendi.');
-                
-            case 'mark_unread':
-                ContactMessage::whereIn('id', $ids)->update([
-                    'is_read' => false,
-                    'read_at' => null,
-                ]);
-                return back()->with('success', count($ids) . ' mesaj okunmamış olarak işaretlendi.');
-                
-            case 'delete':
-                ContactMessage::whereIn('id', $ids)->delete();
-                return back()->with('success', count($ids) . ' mesaj silindi.');
-                
-            default:
-                return back()->with('error', 'Geçersiz işlem.');
-        }
+
+        return DB::transaction(function () use ($action, $ids) {
+            switch ($action) {
+                case 'mark_read':
+                    ContactMessage::whereIn('id', $ids)->update([
+                        'is_read' => true,
+                        'read_at' => now(),
+                    ]);
+                    return back()->with('success', count($ids) . ' mesaj okundu olarak işaretlendi.');
+
+                case 'mark_unread':
+                    ContactMessage::whereIn('id', $ids)->update([
+                        'is_read' => false,
+                        'read_at' => null,
+                    ]);
+                    return back()->with('success', count($ids) . ' mesaj okunmamış olarak işaretlendi.');
+
+                case 'delete':
+                    ContactMessage::whereIn('id', $ids)->delete();
+                    return back()->with('success', count($ids) . ' mesaj silindi.');
+
+                default:
+                    return back()->with('error', 'Geçersiz işlem.');
+            }
+        });
     }
 
     /**

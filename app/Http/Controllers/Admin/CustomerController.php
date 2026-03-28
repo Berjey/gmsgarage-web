@@ -195,7 +195,13 @@ class CustomerController extends Controller
         $body         = $request->message;
 
         // 50'li gruplar halinde gönder — PHP timeout riskini önler
+        $isFirstChunk = true;
         foreach ($customers->chunk(50) as $chunk) {
+            // Mail sunucu aşırı yüklenmesini önlemek için chunk'lar arası bekleme
+            if (!$isFirstChunk) {
+                sleep(1);
+            }
+            $isFirstChunk = false;
             foreach ($chunk as $customer) {
                 try {
                     Mail::send([], [], function ($message) use ($customer, $subject, $body) {

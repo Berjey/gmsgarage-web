@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class LegalPage extends Model
 {
@@ -30,7 +31,9 @@ class LegalPage extends Model
      */
     public static function getActive()
     {
-        return self::where('is_active', true)->orderBy('title')->get();
+        return Cache::remember('legal_pages_active', 3600, function () {
+            return self::where('is_active', true)->orderBy('title')->get();
+        });
     }
 
     /**
@@ -38,7 +41,9 @@ class LegalPage extends Model
      */
     public static function getFooterPages()
     {
-        return self::where('is_active', true)->orderBy('title')->get();
+        return Cache::remember('legal_pages_footer', 3600, function () {
+            return self::where('is_active', true)->orderBy('title')->get();
+        });
     }
 
     /**
@@ -46,10 +51,12 @@ class LegalPage extends Model
      */
     public static function getFormPages()
     {
-        return self::where('is_active', true)
-            ->where('is_required_in_forms', true)
-            ->orderBy('title')
-            ->get();
+        return Cache::remember('legal_pages_form', 3600, function () {
+            return self::where('is_active', true)
+                ->where('is_required_in_forms', true)
+                ->orderBy('title')
+                ->get();
+        });
     }
 
     /**

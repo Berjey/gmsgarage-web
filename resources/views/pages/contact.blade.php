@@ -382,7 +382,19 @@
                     <!-- Google Maps -->
                     @if($settings['contact_google_maps_embed'] ?? null)
                     <div class="bg-white dark:bg-[#252525] rounded-xl shadow-lg dark:shadow-xl dark:border dark:border-[#333333] overflow-hidden transition-colors duration-200">
-                        {!! preg_replace('/width="\d+"/i', 'width="100%"', $settings['contact_google_maps_embed']) !!}
+                        @php
+                            $mapSrc = null;
+                            if (preg_match('/src=["\']([^"\']+)["\']/i', $settings['contact_google_maps_embed'], $m)) {
+                                $parsed = parse_url($m[1]);
+                                $host = $parsed['host'] ?? '';
+                                if (str_ends_with($host, 'google.com') || str_ends_with($host, 'google.com.tr')) {
+                                    $mapSrc = $m[1];
+                                }
+                            }
+                        @endphp
+                        @if($mapSrc)
+                            <iframe src="{{ $mapSrc }}" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        @endif
                     </div>
                     @endif
                 </div>

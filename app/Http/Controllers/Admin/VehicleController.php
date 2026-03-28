@@ -351,6 +351,8 @@ class VehicleController extends Controller
 
         // 1. Silinmesi istenen görseller (edit formundan gelen remove_images[])
         $toRemove = array_filter($request->input('remove_images', []));
+        // Sadece aracın mevcut görsellerinde bulunan yolların silinmesine izin ver (path traversal koruması)
+        $toRemove = array_values(array_intersect($toRemove, $allImages));
         foreach ($toRemove as $removePath) {
             Storage::disk('public')->delete($removePath);
             $allImages = array_values(array_filter($allImages, fn ($p) => $p !== $removePath));

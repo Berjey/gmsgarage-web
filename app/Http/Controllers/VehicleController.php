@@ -201,10 +201,12 @@ class VehicleController extends Controller
         // Donanımları katalog kategorilerine göre grupla
         $featureGroups = [];
         if (is_array($vehicle->features) && count($vehicle->features) > 0) {
-            $catalog = \App\Models\FeaturesCatalog::where('is_active', true)
-                ->orderBy('sort_order')
-                ->get()
-                ->keyBy('name');
+            $catalog = Cache::remember('features_catalog_active', 86400, function () {
+                return \App\Models\FeaturesCatalog::where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->get()
+                    ->keyBy('name');
+            });
 
             $grouped = [];
             $orphans = [];

@@ -92,9 +92,9 @@ class AdminController extends Controller
             'today_evaluation_requests' => $evalStats->today ?? 0,
 
             // Son aktiviteler
-            'recent_vehicles'    => Vehicle::latest()->limit(5)->get(),
-            'recent_blog_posts'  => BlogPost::latest()->limit(5)->get(),
-            'recent_messages'    => ContactMessage::latest()->limit(5)->get(),
+            'recent_vehicles'    => Vehicle::select('id', 'title', 'slug', 'created_at')->latest()->limit(5)->get(),
+            'recent_blog_posts'  => BlogPost::select('id', 'title', 'slug', 'created_at')->latest()->limit(5)->get(),
+            'recent_messages'    => ContactMessage::select('id', 'name', 'created_at')->latest()->limit(5)->get(),
         ];
 
         return view('admin.dashboard', compact('stats'));

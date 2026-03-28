@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EvaluationRequest;
 use App\Models\CarBrand;
 use App\Models\ArabamVehicleConfig;
+use App\Models\CarColor;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -60,11 +61,16 @@ class VehicleEvaluationController extends Controller
                 'EMAIL' => 'E-posta',
             ];
             
+            // Renk listesi DB'den
+            $carColors = CarColor::where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+
             // Render view with all required variables
             return view('pages.evaluation.wizard', compact(
-                'selectedTip', 'selectedYil', 'selectedMarka', 
-                'vehicleTypes', 'fuelTypes', 'transmissionTypes', 
-                'damageStatuses', 'contactMethods'
+                'selectedTip', 'selectedYil', 'selectedMarka',
+                'vehicleTypes', 'fuelTypes', 'transmissionTypes',
+                'damageStatuses', 'contactMethods', 'carColors'
             ));
             
         } catch (\Throwable $e) {
@@ -131,6 +137,27 @@ class VehicleEvaluationController extends Controller
         $bodyTypeId         = (int) $request->get('bodyTypeId');
         $fuelTypeId         = (int) $request->get('fuelTypeId');
         $transmissionTypeId = (int) $request->get('transmissionTypeId');
+
+        // Renk (step 70): Her zaman DB'den servis et
+        if ($step === 70) {
+            $colors = CarColor::where('is_active', true)
+                ->orderBy('sort_order')
+                ->get()
+                ->map(fn($c) => [
+                    'Id'   => $c->arabam_id,
+                    'Name' => $c->name,
+                    'Value' => $c->arabam_id,
+                    'Properties' => [],
+                    'Active' => true,
+                    'LogoPath' => '',
+                ])
+                ->toArray();
+
+            return response()->json([
+                'success' => true,
+                'data'    => ['Items' => $colors, 'SelectedItem' => null],
+            ]);
+        }
 
         // DB'den servis et (arabam:sync --full yapıldıktan sonra)
         if (ArabamVehicleConfig::isSynced()) {

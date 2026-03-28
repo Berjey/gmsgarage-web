@@ -216,7 +216,8 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         İçerik <span class="text-red-500">*</span>
                     </label>
-                    <div id="quill-editor" class="bg-white">{!! old('content', $post->content) !!}</div>
+                    <div id="quill-editor" class="bg-white"></div>
+                    <script>window.__quillInitialContent = @json(old('content', $post->content));</script>
                     <input type="hidden" name="content" id="content-input">
                     @error('content')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -456,7 +457,10 @@
         const form = document.getElementById('blog-edit-form');
         const contentInput = document.getElementById('content-input');
 
-        // Quill yüklendiğinde mevcut içeriği hemen hidden input'a yaz
+        // Quill yüklendiğinde eski içeriği güvenli şekilde yükle
+        if (window.__quillInitialContent) {
+            quill.root.innerHTML = window.__quillInitialContent;
+        }
         contentInput.value = quill.root.innerHTML;
 
         // Her değişiklikte içeriği güncelle

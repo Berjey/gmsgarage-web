@@ -30,12 +30,12 @@
 
         <!-- Back Button -->
         <div class="mt-8 text-center">
-            <a href="javascript:history.back()" class="inline-flex items-center gap-2 px-6 py-3 bg-gray-200 dark:bg-neutral-700 text-gray-700 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-neutral-600 transition-colors font-semibold font-sans">
+            <button type="button" onclick="history.back()" class="inline-flex items-center gap-2 px-6 py-3 bg-gray-200 dark:bg-neutral-700 text-gray-700 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-neutral-600 transition-colors font-semibold font-sans">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
                 Geri Dön
-            </a>
+            </button>
         </div>
     </div>
 </div>

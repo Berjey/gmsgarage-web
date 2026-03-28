@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\EvaluationRequest;
 use App\Services\EmailService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class EvaluationRequestController extends Controller
@@ -127,31 +128,33 @@ class EvaluationRequestController extends Controller
         $action = $request->input('action');
         $count  = count($ids);
 
-        if ($action === 'mark_read') {
-            EvaluationRequest::whereIn('id', $ids)->update([
-                'is_read' => true,
-                'read_at' => now(),
-            ]);
-            return redirect()->route('admin.evaluation-requests.index')
-                ->with('success', "{$count} talep okundu olarak işaretlendi.");
-        }
+        return DB::transaction(function () use ($action, $ids, $count) {
+            if ($action === 'mark_read') {
+                EvaluationRequest::whereIn('id', $ids)->update([
+                    'is_read' => true,
+                    'read_at' => now(),
+                ]);
+                return redirect()->route('admin.evaluation-requests.index')
+                    ->with('success', "{$count} talep okundu olarak işaretlendi.");
+            }
 
-        if ($action === 'mark_unread') {
-            EvaluationRequest::whereIn('id', $ids)->update([
-                'is_read' => false,
-                'read_at' => null,
-            ]);
-            return redirect()->route('admin.evaluation-requests.index')
-                ->with('success', "{$count} talep okunmamış olarak işaretlendi.");
-        }
+            if ($action === 'mark_unread') {
+                EvaluationRequest::whereIn('id', $ids)->update([
+                    'is_read' => false,
+                    'read_at' => null,
+                ]);
+                return redirect()->route('admin.evaluation-requests.index')
+                    ->with('success', "{$count} talep okunmamış olarak işaretlendi.");
+            }
 
-        if ($action === 'delete') {
-            EvaluationRequest::whereIn('id', $ids)->delete();
-            return redirect()->route('admin.evaluation-requests.index')
-                ->with('success', "{$count} talep başarıyla silindi.");
-        }
+            if ($action === 'delete') {
+                EvaluationRequest::whereIn('id', $ids)->delete();
+                return redirect()->route('admin.evaluation-requests.index')
+                    ->with('success', "{$count} talep başarıyla silindi.");
+            }
 
-        return back();
+            return back();
+        });
     }
 
     public function export(Request $request)
