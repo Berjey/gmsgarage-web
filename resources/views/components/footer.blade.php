@@ -1,4 +1,4 @@
-<footer class="bg-[#141414] text-gray-200 mt-20 border-t border-[#252525] relative overflow-hidden">
+<footer class="bg-gray-900 text-gray-200 mt-20 border-t border-gray-800 relative overflow-hidden">
     <!-- Subtle animated gradient overlay -->
     <div class="absolute inset-0 opacity-5">
         <div class="absolute inset-0 footer-gradient-animation"></div>
@@ -154,7 +154,7 @@
         </div>
         
         <!-- Alt Bar -->
-        <div class="border-t border-[#2a2a2a] mt-12 pt-8">
+        <div class="border-t border-gray-800 mt-12 pt-8">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                 <p class="text-gray-400">{{ $settings['footer_copyright'] ?? '© 2026 GMSGARAGE. Tüm hakları saklıdır.' }}</p>
                 <div class="flex items-center flex-wrap justify-center gap-4 text-sm">
