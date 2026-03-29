@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-DG2YVL9f.css",
+    "file": "assets/app-CTjS1Es7.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -11,12 +11,12 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DqBFI2KZ.js",
+    "file": "assets/app-DcoGowsY.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-DG2YVL9f.css"
+      "assets/app-CTjS1Es7.css"
     ]
   },
   "resources/js/legal-modal.js": {
