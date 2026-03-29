@@ -1003,12 +1003,16 @@ function goToStep(tabId, validate) {
             Swal.fire({
                 icon: 'info',
                 title: 'Eksik Alanlar',
-                html: '<p class="text-sm text-gray-600 mb-2">Şu alanlar henüz doldurulmadı:</p><ul class="text-sm text-left list-disc pl-5">' +
-                      warnings.map(w => '<li>' + w + '</li>').join('') + '</ul>',
-                confirmButtonText: 'Yine de devam et',
+                html: '<p class="text-sm text-gray-500 mb-3">Aşağıdaki alanlar henüz doldurulmadı:</p><ul class="text-left text-sm text-gray-600 space-y-1">' +
+                      warnings.map(w => '<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full flex-shrink-0"></span>' + w + '</li>').join('') + '</ul>' +
+                      '<p class="text-xs text-gray-400 mt-3">Yine de devam edebilirsiniz.</p>',
+                confirmButtonText: 'Devam Et',
                 showCancelButton: true,
                 cancelButtonText: 'Düzelt',
-                confirmButtonColor: '#dc2626'
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                reverseButtons: true,
+                customClass: { popup: 'rounded-xl shadow-2xl', title: 'text-xl font-bold text-gray-900' },
             }).then(r => { if (r.isConfirmed) activateStep(tabId); });
             return;
         }
@@ -1373,7 +1377,7 @@ document.getElementById('vehicleForm').addEventListener('submit', function (e) {
     });
     if (missing.length > 0) {
         e.preventDefault();
-        Swal.fire({ icon: 'warning', title: 'Eksik Alanlar', text: 'Lütfen zorunlu alanları doldurun.', confirmButtonColor: '#dc2626' });
+        showWarning('Eksik Alanlar', 'Lütfen zorunlu alanları doldurun.');
         return false;
     }
 });

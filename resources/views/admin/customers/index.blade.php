@@ -417,13 +417,7 @@ function openBulkEmailModal() {
     const selectedCheckboxes = document.querySelectorAll('.customer-checkbox:checked');
 
     if (selectedCheckboxes.length === 0) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Müşteri Seçilmedi',
-            text: 'Lütfen e-posta göndermek istediğiniz en az bir müşteri seçin.',
-            confirmButtonColor: '#4f46e5',
-            customClass: { popup: 'rounded-xl', confirmButton: 'px-6 py-2.5 rounded-lg font-semibold' }
-        });
+        showWarning('Müşteri Seçilmedi', 'Lütfen e-posta göndermek istediğiniz en az bir müşteri seçin.');
         return;
     }
 

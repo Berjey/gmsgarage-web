@@ -1,22 +1,22 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-C5klPKgM.css",
+    "file": "assets/app-DG2YVL9f.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/admin-confirm.js": {
-    "file": "assets/admin-confirm-D1BXTp4u.js",
+    "file": "assets/admin-confirm-BGuQEsoq.js",
     "name": "admin-confirm",
     "src": "resources/js/admin-confirm.js",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-B1BTe4Ok.js",
+    "file": "assets/app-DqBFI2KZ.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-C5klPKgM.css"
+      "assets/app-DG2YVL9f.css"
     ]
   },
   "resources/js/legal-modal.js": {

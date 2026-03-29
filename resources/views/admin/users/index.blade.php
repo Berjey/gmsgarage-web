@@ -206,7 +206,7 @@ function confirmUserDelete(button) {
     const userRole = form.getAttribute('data-user-role');
     
     Swal.fire({
-        title: '⚠️ Kullanıcıyı Sil?',
+        title: 'Kullanıcıyı silmek istediğinize emin misiniz?',
         html: `
             <div class="text-left space-y-3 mt-4">
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
@@ -231,8 +231,8 @@ function confirmUserDelete(button) {
         showCancelButton: true,
         confirmButtonColor: '#dc2626',
         cancelButtonColor: '#6b7280',
-        confirmButtonText: '🗑️ Evet, Sil!',
-        cancelButtonText: '✕ İptal',
+        confirmButtonText: 'Sil',
+        cancelButtonText: 'Vazgeç',
         reverseButtons: true,
         customClass: {
             popup: 'rounded-2xl shadow-2xl',

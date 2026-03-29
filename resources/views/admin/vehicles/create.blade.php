@@ -978,15 +978,17 @@ function goToStep(tabId, validate) {
         if (warnings.length > 0) {
             Swal.fire({
                 title: 'Eksik Alanlar',
-                html: '<p class="text-sm text-gray-600 mb-2">Bu adımda eksik alanlar var:</p><ul class="text-left text-sm list-disc pl-5">' +
-                      warnings.map(w => '<li class="text-amber-600">' + w + '</li>').join('') + '</ul>' +
+                html: '<p class="text-sm text-gray-500 mb-3">Aşağıdaki alanlar henüz doldurulmadı:</p><ul class="text-left text-sm text-gray-600 space-y-1">' +
+                      warnings.map(w => '<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full flex-shrink-0"></span>' + w + '</li>').join('') + '</ul>' +
                       '<p class="text-xs text-gray-400 mt-3">Yine de devam edebilirsiniz.</p>',
-                icon: 'warning',
+                icon: 'info',
                 showCancelButton: true,
                 confirmButtonColor: '#dc2626',
                 cancelButtonColor: '#6b7280',
                 confirmButtonText: 'Devam Et',
-                cancelButtonText: 'Burada Kal'
+                cancelButtonText: 'Düzelt',
+                reverseButtons: true,
+                customClass: { popup: 'rounded-xl shadow-2xl', title: 'text-xl font-bold text-gray-900' },
             }).then(r => { if (r.isConfirmed) activateStep(tabId); });
             return;
         }
@@ -1459,8 +1461,8 @@ $(document).ready(function(){
     let galleryFiles=[]; const MAX_G=15;
     $('#singleImageInput').on('change',function(e){
         const file=e.target.files[0]; if(!file)return;
-        if(galleryFiles.length>=MAX_G){Swal.fire({title:'Limit Aşıldı',text:`Maks. ${MAX_G} görsel.`,icon:'warning',confirmButtonColor:'#dc2626'});$(this).val('');return;}
-        if(file.size>5*1024*1024){Swal.fire({title:'Görsel Çok Büyük',text:"5MB'dan küçük olmalı.",icon:'warning',confirmButtonColor:'#dc2626'});$(this).val('');return;}
+        if(galleryFiles.length>=MAX_G){showWarning('Görsel Limiti',`En fazla ${MAX_G} görsel yükleyebilirsiniz.`);$(this).val('');return;}
+        if(file.size>5*1024*1024){showWarning('Dosya Boyutu Aşıldı','Görsel boyutu en fazla 5 MB olabilir.');$(this).val('');return;}
         galleryFiles.push(file);$(this).val('');renderGallery();
     });
     function renderGallery(){
@@ -1476,7 +1478,7 @@ $(document).ready(function(){
         setTimeout(()=>{if(galleryFiles.length>1)new Sortable(document.getElementById('galleryPreview'),{animation:200,onEnd:function(evt){const m=galleryFiles.splice(evt.oldIndex,1)[0];galleryFiles.splice(evt.newIndex,0,m);renderGallery();}});},100);
     }
     window.removeGalleryItem=function(i){
-        Swal.fire({title:'Görseli Kaldır?',text:'Bu görseli galeriden kaldırmak istediğinize emin misiniz?',icon:'question',showCancelButton:true,confirmButtonColor:'#dc2626',cancelButtonColor:'#6b7280',confirmButtonText:'Evet, Kaldır',cancelButtonText:'İptal'})
+        Swal.fire({title:'Görseli kaldırmak istediğinize emin misiniz?',icon:'warning',showCancelButton:true,confirmButtonColor:'#dc2626',cancelButtonColor:'#6b7280',confirmButtonText:'Kaldır',cancelButtonText:'Vazgeç',reverseButtons:true,customClass:{popup:'rounded-xl shadow-2xl',title:'text-lg font-bold text-gray-900'}})
         .then(r=>{if(r.isConfirmed){galleryFiles.splice(i,1);renderGallery();}});
     };
 
@@ -1524,11 +1526,7 @@ $(document).ready(function(){
 
             if (missing.length > 0) {
                 e.preventDefault();
-                Swal.fire({
-                    title: 'Eksik Alanlar',
-                    html: '<p class="text-sm text-gray-600 mb-2">Yayınlamak için şu alanları doldurun:</p><ul class="text-left text-sm list-disc pl-5">' + missing.map(f => `<li class="text-red-600">${f}</li>`).join('') + '</ul>',
-                    icon: 'error', confirmButtonColor: '#dc2626', confirmButtonText: 'Tamam'
-                });
+                showMissingFields(missing);
                 return false;
             }
         }

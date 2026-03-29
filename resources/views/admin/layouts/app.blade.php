@@ -179,25 +179,28 @@
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6 lg:p-8">
                 <div class="admin-content-wrapper">
                     @if(session('success'))
-                        <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg">
-                            {{ session('success') }}
-                        </div>
+                        <script>document.addEventListener('DOMContentLoaded', function(){ showSuccess(@json(session('success'))); });</script>
                     @endif
 
                     @if(session('error'))
-                        <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
-                            {{ session('error') }}
-                        </div>
+                        <script>document.addEventListener('DOMContentLoaded', function(){ showError(@json(session('error'))); });</script>
                     @endif
 
                     @if ($errors->any())
-                        <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
-                            <ul class="list-disc list-inside">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function(){
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lütfen hataları düzeltin',
+                                html: '<ul class="text-left text-sm text-gray-600 mt-2 space-y-1">' +
+                                    @json($errors->all()).map(function(e){ return '<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-red-500 rounded-full flex-shrink-0"></span>' + e + '</li>'; }).join('') +
+                                    '</ul>',
+                                confirmButtonColor: '#dc2626',
+                                confirmButtonText: 'Tamam',
+                                customClass: { popup: 'rounded-xl shadow-2xl', title: 'text-xl font-bold text-gray-900' },
+                            });
+                        });
+                        </script>
                     @endif
 
                     @yield('content')
@@ -303,14 +306,8 @@
         const message = document.getElementById(modalId + '-message').value.trim();
         const btn     = document.getElementById(modalId + '-submit-btn');
 
-        if (!subject) {
-            Swal.fire({ icon: 'warning', title: 'Eksik Alan', text: 'E-posta konusu zorunludur.', confirmButtonColor: '#e11d48' });
-            return;
-        }
-        if (!message) {
-            Swal.fire({ icon: 'warning', title: 'Eksik Alan', text: 'Mesaj alanı zorunludur.', confirmButtonColor: '#e11d48' });
-            return;
-        }
+        if (!subject) { showWarning('Eksik Alan', 'E-posta konusu zorunludur.'); return; }
+        if (!message) { showWarning('Eksik Alan', 'Mesaj alanı zorunludur.'); return; }
 
         // Loading state + double-click koruması
         btn.disabled = true;
@@ -331,31 +328,14 @@
         .then(({ ok, data }) => {
             closeSendEmailModal(modalId);
             if (ok && data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Gönderildi!',
-                    text: data.message,
-                    confirmButtonColor: '#e11d48',
-                    timer: 3000,
-                    timerProgressBar: true,
-                });
+                showSuccess(data.message || 'E-posta başarıyla gönderildi.');
             } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gönderilemedi',
-                    text: data.message || 'Bir hata oluştu. Lütfen tekrar deneyin.',
-                    confirmButtonColor: '#e11d48',
-                });
+                showError(data.message || 'E-posta gönderilemedi. Lütfen tekrar deneyin.');
             }
         })
         .catch(() => {
             closeSendEmailModal(modalId);
-            Swal.fire({
-                icon: 'error',
-                title: 'Bağlantı Hatası',
-                text: 'Sunucuya ulaşılamadı. Lütfen tekrar deneyin.',
-                confirmButtonColor: '#e11d48',
-            });
+            showError('Sunucuya ulaşılamadı. Lütfen tekrar deneyin.');
         });
     }
     </script>

@@ -442,7 +442,7 @@
     function addNewCategory() {
         const input = document.getElementById('new-category-field');
         const newCategory = input.value.trim();
-        if (!newCategory) { Swal.fire({ icon: 'warning', title: 'Uyarı', text: 'Lütfen kategori adı girin!', confirmButtonColor: '#e11d48' }); return; }
+        if (!newCategory) { showWarning('Eksik Alan', 'Lütfen kategori adı girin.'); return; }
 
         const dd       = document.querySelector('[data-adm-dd]');
         const list     = dd.querySelector('[data-adm-list]');

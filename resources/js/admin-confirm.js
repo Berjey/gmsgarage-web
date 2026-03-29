@@ -1,102 +1,135 @@
 /**
- * GMSGARAGE Admin Panel - Delete Confirmation
- * Kurumsal Kimlik Tasarımına Uygun SweetAlert2 Konfig
+ * GMSGARAGE Admin Panel - SweetAlert2 Global Konfigürasyon
+ * Tutarlı renk, ikon ve stil standardı
  */
 
+// ── Ortak stil sabitleri ─────────────────────────────────────────────────────
+const SWAL_COLORS = {
+    confirm: '#dc2626',
+    cancel:  '#6b7280',
+    info:    '#2563eb',
+};
+
+const SWAL_CLASSES = {
+    popup:         'rounded-xl shadow-2xl',
+    title:         'text-xl font-bold text-gray-900',
+    confirmButton: 'px-5 py-2.5 rounded-lg font-semibold',
+    cancelButton:  'px-5 py-2.5 rounded-lg font-semibold',
+};
+
+// ── Tekli silme onayı ────────────────────────────────────────────────────────
 window.confirmDelete = function(form, itemName = 'bu öğeyi') {
     Swal.fire({
-        title: 'Emin misiniz?',
-        html: `<p class="text-gray-600">${itemName} <strong>kalıcı olarak silinecek</strong>.</p><p class="text-sm text-gray-500 mt-2">Bu işlem geri alınamaz!</p>`,
+        title: 'Silmek istediğinize emin misiniz?',
+        html: `<p class="text-gray-600 text-sm">${itemName} kalıcı olarak silinecek.</p><p class="text-xs text-gray-400 mt-2">Bu işlem geri alınamaz.</p>`,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#dc2626', // red-600
-        cancelButtonColor: '#6b7280', // gray-500
-        confirmButtonText: '<i class="fas fa-trash-alt mr-2"></i>Evet, Sil',
-        cancelButtonText: '<i class="fas fa-times mr-2"></i>İptal',
+        confirmButtonColor: SWAL_COLORS.confirm,
+        cancelButtonColor: SWAL_COLORS.cancel,
+        confirmButtonText: 'Sil',
+        cancelButtonText: 'Vazgeç',
         reverseButtons: true,
-        customClass: {
-            popup: 'rounded-xl shadow-2xl',
-            title: 'text-2xl font-bold text-gray-900',
-            confirmButton: 'px-6 py-3 rounded-lg font-bold shadow-lg hover:shadow-xl transition-all',
-            cancelButton: 'px-6 py-3 rounded-lg font-bold shadow-sm hover:shadow-md transition-all',
-        },
-        buttonsStyling: true,
+        customClass: SWAL_CLASSES,
         focusCancel: true,
-        showClass: {
-            popup: 'animate__animated animate__fadeInDown animate__faster'
-        },
-        hideClass: {
-            popup: 'animate__animated animate__fadeOutUp animate__faster'
-        }
     }).then((result) => {
         if (result.isConfirmed) {
-            // Silme işlemi başladı - loading göster
             Swal.fire({
                 title: 'Siliniyor...',
-                html: 'Lütfen bekleyin.',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
+                didOpen: () => Swal.showLoading(),
             });
-            
-            // Form'u submit et
             form.submit();
         }
     });
-    
     return false;
 };
 
-// Toplu silme için
+// ── Toplu silme onayı ────────────────────────────────────────────────────────
 window.confirmBulkDelete = function(count) {
-    Swal.fire({
+    return Swal.fire({
         title: 'Toplu Silme',
-        html: `<p class="text-gray-600"><strong>${count} öğe</strong> kalıcı olarak silinecek.</p><p class="text-sm text-gray-500 mt-2">Bu işlem geri alınamaz!</p>`,
+        html: `<p class="text-gray-600 text-sm"><strong>${count} öğe</strong> kalıcı olarak silinecek.</p><p class="text-xs text-gray-400 mt-2">Bu işlem geri alınamaz.</p>`,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#dc2626',
-        cancelButtonColor: '#6b7280',
-        confirmButtonText: `<i class="fas fa-trash-alt mr-2"></i>Evet, ${count} Öğeyi Sil`,
-        cancelButtonText: '<i class="fas fa-times mr-2"></i>İptal',
+        confirmButtonColor: SWAL_COLORS.confirm,
+        cancelButtonColor: SWAL_COLORS.cancel,
+        confirmButtonText: `${count} Öğeyi Sil`,
+        cancelButtonText: 'Vazgeç',
         reverseButtons: true,
-        customClass: {
-            popup: 'rounded-xl shadow-2xl',
-            title: 'text-2xl font-bold text-gray-900',
-            confirmButton: 'px-6 py-3 rounded-lg font-bold shadow-lg hover:shadow-xl transition-all',
-            cancelButton: 'px-6 py-3 rounded-lg font-bold shadow-sm hover:shadow-md transition-all',
-        },
+        customClass: SWAL_CLASSES,
         focusCancel: true,
     });
 };
 
-// Başarılı mesaj
+// ── Başarı Toast ─────────────────────────────────────────────────────────────
 window.showSuccess = function(message) {
     Swal.fire({
         icon: 'success',
-        title: 'Başarılı!',
-        text: message,
-        timer: 3000,
-        showConfirmButton: false,
+        title: message,
         toast: true,
         position: 'top-end',
-        customClass: {
-            popup: 'rounded-xl shadow-xl'
-        }
+        timer: 3500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        customClass: { popup: 'rounded-lg shadow-lg' },
     });
 };
 
-// Hata mesajı
+// ── Hata mesajı ──────────────────────────────────────────────────────────────
 window.showError = function(message) {
     Swal.fire({
         icon: 'error',
-        title: 'Hata!',
+        title: 'Hata',
         text: message,
-        confirmButtonColor: '#dc2626',
-        customClass: {
-            popup: 'rounded-xl shadow-2xl',
-            confirmButton: 'px-6 py-3 rounded-lg font-bold'
-        }
+        confirmButtonColor: SWAL_COLORS.confirm,
+        confirmButtonText: 'Tamam',
+        customClass: SWAL_CLASSES,
+    });
+};
+
+// ── Uyarı mesajı ─────────────────────────────────────────────────────────────
+window.showWarning = function(title, message) {
+    Swal.fire({
+        icon: 'warning',
+        title: title,
+        html: message ? `<p class="text-gray-600 text-sm">${message}</p>` : undefined,
+        confirmButtonColor: SWAL_COLORS.confirm,
+        confirmButtonText: 'Tamam',
+        customClass: SWAL_CLASSES,
+    });
+};
+
+// ── Bilgi mesajı ─────────────────────────────────────────────────────────────
+window.showInfo = function(title, message) {
+    Swal.fire({
+        icon: 'info',
+        title: title,
+        html: message ? `<p class="text-gray-600 text-sm">${message}</p>` : undefined,
+        confirmButtonColor: SWAL_COLORS.info,
+        confirmButtonText: 'Tamam',
+        customClass: SWAL_CLASSES,
+    });
+};
+
+// ── Eksik alan uyarısı (form validation) ─────────────────────────────────────
+window.showMissingFields = function(fields) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Eksik Alanlar',
+        html: '<ul class="text-left text-sm text-gray-600 mt-2 space-y-1">' + fields.map(f => `<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-red-500 rounded-full flex-shrink-0"></span>${f}</li>`).join('') + '</ul>',
+        confirmButtonColor: SWAL_COLORS.confirm,
+        confirmButtonText: 'Tamam',
+        customClass: SWAL_CLASSES,
+    });
+};
+
+// ── Loading spinner ──────────────────────────────────────────────────────────
+window.showLoading = function(title = 'İşleniyor...') {
+    Swal.fire({
+        title: title,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => Swal.showLoading(),
     });
 };
