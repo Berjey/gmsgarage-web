@@ -845,7 +845,7 @@
                 <div id="tab-description" class="detail-tab-content p-8 hidden">
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Açıklama</h2>
                     <div class="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        {{ $vehicle->description ?? 'Açıklama bulunmamaktadır.' }}
+                        {!! nl2br(e($vehicle->description ?? 'Açıklama bulunmamaktadır.')) !!}
                     </div>
                 </div>
             </div>

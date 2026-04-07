@@ -308,6 +308,12 @@
                                        placeholder="Örn: Clio, Sandero, i20">
                             </div>
                             <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Model Yılı <span class="text-red-500">*</span></label>
+                                <input type="number" id="manualInput-year" min="1970" max="2030"
+                                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm"
+                                       placeholder="Örn: 2020">
+                            </div>
+                            <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Kasa Tipi</label>
                                 <input type="text" id="manualInput-bodyType"
                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm"
@@ -1020,11 +1026,12 @@ function checkStepCompletion(stepId) {
     const warnings = [];
     switch (stepId) {
         case 'kimlik':
-            if (!document.getElementById('ddVal-year').value) warnings.push('Model Yılı');
             if (typeof isManualMode !== 'undefined' && isManualMode) {
+                if (!(document.getElementById('manualInput-year') || {}).value) warnings.push('Model Yılı');
                 if (!(document.getElementById('manualInput-brand') || {}).value) warnings.push('Marka');
                 if (!(document.getElementById('manualInput-model') || {}).value) warnings.push('Model / Seri');
             } else {
+                if (!document.getElementById('ddVal-year').value) warnings.push('Model Yılı');
                 if (!document.getElementById('ddVal-brand').value) warnings.push('Marka');
                 if (!document.getElementById('ddVal-model').value) warnings.push('Model / Seri');
             }
@@ -1513,7 +1520,9 @@ $(document).ready(function(){
             const modelVal = isManualMode
                 ? document.getElementById('manualInput-model').value.trim()
                 : (cascadeData.modelId || document.getElementById('ddVal-model').value);
-            const yearVal  = document.getElementById('ddVal-year').value;
+            const yearVal  = isManualMode
+                ? (document.getElementById('manualInput-year') || {}).value
+                : document.getElementById('ddVal-year').value;
 
             const missing = [];
             if (!$('[name="title"]').val().trim()) missing.push('Başlık');
@@ -1539,6 +1548,7 @@ $(document).ready(function(){
             const manualFields = {
                 brand:          'manualInput-brand',
                 model:          'manualInput-model',
+                year:           'manualInput-year',
                 body_type:      'manualInput-bodyType',
                 fuel_type:      'manualInput-fuelType',
                 transmission:   'manualInput-transmission',
