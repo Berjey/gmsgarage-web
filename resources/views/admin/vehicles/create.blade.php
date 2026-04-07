@@ -1455,14 +1455,17 @@ $(document).ready(function(){
     });
 
     // ── ANA GÖRSEL ────────────────────────────────────────────────────────────
+    let mainImageFile = null;
     $('#mainImageInput').on('change',function(e){
         const file=e.target.files[0];
         if(!file)return;
+        if(file.size>5*1024*1024){showWarning('Dosya Boyutu Aşıldı','Ana görsel boyutu en fazla 5 MB olabilir.');$(this).val('');return;}
+        mainImageFile = file;
         const reader=new FileReader();
         reader.onload=function(ev){$('#mainPreviewImg').attr('src',ev.target.result);$('#mainPreview').removeClass('hidden');};
         reader.readAsDataURL(file);
     });
-    window.removeMainImage=function(){$('#mainImageInput').val('');$('#mainPreview').addClass('hidden');};
+    window.removeMainImage=function(){$('#mainImageInput').val('');mainImageFile=null;$('#mainPreview').addClass('hidden');};
 
     // ── GALERİ ────────────────────────────────────────────────────────────────
     let galleryFiles=[]; const MAX_G=15;
@@ -1506,9 +1509,17 @@ $(document).ready(function(){
     $('.submit-btn').on('click', function() { $('#formAction').val($(this).data('action')); });
 
     $('#vehicleForm').on('submit', function(e) {
+        // Galeri dosyalarını bellekten set et
         const dt = new DataTransfer();
         galleryFiles.forEach(f => dt.items.add(f));
         document.getElementById('galleryInput').files = dt.files;
+
+        // Ana görseli bellekten set et (dosya taşınmış/silinmiş olsa bile çalışır)
+        if (mainImageFile) {
+            const mainDt = new DataTransfer();
+            mainDt.items.add(mainImageFile);
+            document.getElementById('mainImageInput').files = mainDt.files;
+        }
 
         const action = $('#formAction').val();
 
