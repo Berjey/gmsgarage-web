@@ -93,10 +93,33 @@ class VehicleController extends Controller
         $requiredRule  = $isPublishing ? 'required' : 'nullable';
         $mainImageRule = $isPublishing ? 'required|image|max:5120' : 'nullable|image|max:5120';
 
-        // Sayısal alanlardan nokta/virgül temizle (150.000 -> 150000), boşları null yap
+        // Sayısal alanlardan binlik ayracı temizle (2.720.000 -> 2720000), boşları null yap
         foreach (['kilometer', 'price', 'tramer_amount', 'engine_size', 'horse_power', 'torque'] as $numField) {
             $val = $request->input($numField);
-            $request->merge([$numField => ($val !== null && $val !== '') ? str_replace(['.', ',', ' '], '', $val) : null]);
+            if ($val === null || $val === '') {
+                $request->merge([$numField => null]);
+                continue;
+            }
+            // Boşlukları temizle
+            $val = str_replace(' ', '', $val);
+            // TR formatı: 2.720.000,50 → virgülü ondalık noktaya çevir, binlik noktaları sil
+            if (str_contains($val, ',')) {
+                $val = str_replace('.', '', $val); // binlik noktaları sil
+                $val = str_replace(',', '.', $val); // virgülü ondalık noktaya çevir
+            } else {
+                // Sadece nokta var: son noktadan sonra 1-2 hane varsa ondalık, değilse binlik
+                $lastDot = strrpos($val, '.');
+                if ($lastDot !== false && strlen($val) - $lastDot <= 3) {
+                    // Ondalık nokta (ör: 2720000.00) — sadece önceki binlik noktaları sil
+                    $decimal = substr($val, $lastDot);
+                    $integer = str_replace('.', '', substr($val, 0, $lastDot));
+                    $val = $integer . $decimal;
+                } else {
+                    // Binlik nokta (ör: 2.720.000) — hepsini sil
+                    $val = str_replace('.', '', $val);
+                }
+            }
+            $request->merge([$numField => $val]);
         }
 
         $validated = $request->validate([
@@ -250,20 +273,48 @@ class VehicleController extends Controller
     {
         $vehicle = Vehicle::findOrFail($id);
 
-        // Sayısal alanlardan nokta/virgül temizle (150.000 -> 150000), boşları null yap
+        // Sayısal alanlardan binlik ayracı temizle (2.720.000 -> 2720000), boşları null yap
         foreach (['kilometer', 'price', 'tramer_amount', 'engine_size', 'horse_power', 'torque'] as $numField) {
             $val = $request->input($numField);
-            $request->merge([$numField => ($val !== null && $val !== '') ? str_replace(['.', ',', ' '], '', $val) : null]);
+            if ($val === null || $val === '') {
+                $request->merge([$numField => null]);
+                continue;
+            }
+            // Boşlukları temizle
+            $val = str_replace(' ', '', $val);
+            // TR formatı: 2.720.000,50 → virgülü ondalık noktaya çevir, binlik noktaları sil
+            if (str_contains($val, ',')) {
+                $val = str_replace('.', '', $val); // binlik noktaları sil
+                $val = str_replace(',', '.', $val); // virgülü ondalık noktaya çevir
+            } else {
+                // Sadece nokta var: son noktadan sonra 1-2 hane varsa ondalık, değilse binlik
+                $lastDot = strrpos($val, '.');
+                if ($lastDot !== false && strlen($val) - $lastDot <= 3) {
+                    // Ondalık nokta (ör: 2720000.00) — sadece önceki binlik noktaları sil
+                    $decimal = substr($val, $lastDot);
+                    $integer = str_replace('.', '', substr($val, 0, $lastDot));
+                    $val = $integer . $decimal;
+                } else {
+                    // Binlik nokta (ör: 2.720.000) — hepsini sil
+                    $val = str_replace('.', '', $val);
+                }
+            }
+            $request->merge([$numField => $val]);
         }
 
+        // Action'ı belirle (draft veya publish)
+        $action       = $request->input('action', 'publish');
+        $isPublishing = ($action === 'publish');
+        $requiredRule  = $isPublishing ? 'required' : 'nullable';
+
         $validated = $request->validate([
-            // Temel Bilgiler (Zorunlu)
+            // Temel Bilgiler
             'title'     => 'required|string|max:255',
-            'brand'     => 'required|string|max:255',
-            'model'     => 'required|string|max:255',
-            'year'      => 'required|integer|min:1900|max:' . (date('Y') + 1),
-            'price'     => 'required|numeric|min:0',
-            'kilometer' => 'required|integer|min:0',
+            'brand'     => $requiredRule . '|string|max:255',
+            'model'     => $requiredRule . '|string|max:255',
+            'year'      => $requiredRule . '|integer|min:1900|max:' . (date('Y') + 1),
+            'price'     => $requiredRule . '|numeric|min:0',
+            'kilometer' => $requiredRule . '|integer|min:0',
 
             // Teknik Özellikler
             'package_version' => 'nullable|string|max:255',
