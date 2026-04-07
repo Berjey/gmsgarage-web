@@ -1413,6 +1413,10 @@ $(document).ready(function(){
             btn.classList.add('bg-red-50', 'border-red-400', 'text-red-600');
             btnText.textContent = 'Cascade\'e Dön';
             if (hint) hint.textContent = 'Manuel giriş modu — araç bilgilerini aşağıya yazınız.';
+            // Cascade hidden input'ları devre dışı bırak (çift gönderim önlenir)
+            ['ddVal-brand', 'ddVal-year', 'ddVal-model'].forEach(function(id) {
+                var el = document.getElementById(id); if (el) el.disabled = true;
+            });
             // Cascade datasını sıfırla
             cascadeData.brandId = null; cascadeData.brandName = null; cascadeData.brandArabamId = null;
             cascadeData.modelId = null; cascadeData.modelName = null; cascadeData.modelArabamId = null;
@@ -1424,6 +1428,10 @@ $(document).ready(function(){
             btn.classList.remove('bg-red-50', 'border-red-400', 'text-red-600');
             btnText.textContent = 'Manuel Giriş';
             if (hint) hint.textContent = 'Marka ve yılı seçtikten sonra model, ardından kasa / yakıt / vites / paket bilgileri otomatik dolar.';
+            // Cascade hidden input'ları tekrar aktif et
+            ['ddVal-brand', 'ddVal-year', 'ddVal-model'].forEach(function(id) {
+                var el = document.getElementById(id); if (el) el.disabled = false;
+            });
             // Manuel inputları temizle
             ['brand', 'model', 'bodyType', 'fuelType', 'transmission', 'version'].forEach(function(k) {
                 const el = document.getElementById('manualInput-' + k);
@@ -1485,7 +1493,7 @@ $(document).ready(function(){
             };
             reader.readAsDataURL(file);
         });
-        setTimeout(()=>{if(galleryFiles.length>1)new Sortable(document.getElementById('galleryPreview'),{animation:200,onEnd:function(evt){const m=galleryFiles.splice(evt.oldIndex,1)[0];galleryFiles.splice(evt.newIndex,0,m);renderGallery();}});},100);
+        setTimeout(()=>{if(galleryFiles.length>1 && typeof Sortable!=='undefined')new Sortable(document.getElementById('galleryPreview'),{animation:200,onEnd:function(evt){const m=galleryFiles.splice(evt.oldIndex,1)[0];galleryFiles.splice(evt.newIndex,0,m);renderGallery();}});},100);
     }
     window.removeGalleryItem=function(i){
         Swal.fire({title:'Görseli kaldırmak istediğinize emin misiniz?',icon:'warning',showCancelButton:true,confirmButtonColor:'#dc2626',cancelButtonColor:'#6b7280',confirmButtonText:'Kaldır',cancelButtonText:'Vazgeç',reverseButtons:true,customClass:{popup:'rounded-xl shadow-2xl',title:'text-lg font-bold text-gray-900'}})
@@ -1509,16 +1517,20 @@ $(document).ready(function(){
     $('.submit-btn').on('click', function() { $('#formAction').val($(this).data('action')); });
 
     $('#vehicleForm').on('submit', function(e) {
-        // Galeri dosyalarını bellekten set et
-        const dt = new DataTransfer();
-        galleryFiles.forEach(f => dt.items.add(f));
-        document.getElementById('galleryInput').files = dt.files;
+        try {
+            // Galeri dosyalarını bellekten set et
+            const dt = new DataTransfer();
+            galleryFiles.forEach(f => dt.items.add(f));
+            document.getElementById('galleryInput').files = dt.files;
 
-        // Ana görseli bellekten set et (dosya taşınmış/silinmiş olsa bile çalışır)
-        if (mainImageFile) {
-            const mainDt = new DataTransfer();
-            mainDt.items.add(mainImageFile);
-            document.getElementById('mainImageInput').files = mainDt.files;
+            // Ana görseli bellekten set et (dosya taşınmış/silinmiş olsa bile çalışır)
+            if (mainImageFile) {
+                const mainDt = new DataTransfer();
+                mainDt.items.add(mainImageFile);
+                document.getElementById('mainImageInput').files = mainDt.files;
+            }
+        } catch (err) {
+            console.warn('DataTransfer hatası:', err);
         }
 
         const action = $('#formAction').val();
