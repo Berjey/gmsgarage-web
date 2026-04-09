@@ -2,7 +2,7 @@
     <!-- Logo -->
     <div class="p-6 border-b border-gray-200 flex justify-center">
         <a href="{{ route('admin.dashboard') }}" class="block">
-            <img src="{{ asset('images/light-mode-logo.png') }}" alt="GMSGARAGE Logo" class="h-12 w-auto">
+            <img src="{{ asset('images/light-mode-logo.png') }}" alt="GMSGARAGE Logo" class="h-16 w-auto">
         </a>
     </div>
 

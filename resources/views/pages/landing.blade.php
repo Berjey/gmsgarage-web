@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     <title>{{ $settings['site_title'] ?? 'GMSGARAGE' }}</title>
     <meta name="description" content="{{ ($settings['site_title'] ?? 'GMSGARAGE') }} - Premium ikinci el araçlar, garantili ve bakımlı araçlar. En iyi fiyat garantisi.">
     <meta property="og:type" content="website">
@@ -129,13 +132,13 @@
     <!-- Sticky Header -->
     <header id="header" class="landing-header bg-white dark:bg-[#1e1e1e]/95 backdrop-blur-modern transition-colors duration-200">
         <nav class="container-custom">
-            <div class="flex items-center justify-between h-20">
+            <div class="flex items-center justify-between" style="height: 100px;">
                 <!-- Logo -->
-                <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
+                <a href="{{ route('home') }}" class="flex items-center group" style="height: 90px;">
                     <!-- Light Mode Logo -->
-                    <img src="{{ asset('images/light-mode-logo.png') }}" alt="{{ ($settings['site_title'] ?? 'GMSGARAGE') }} Logo" class="h-16 w-auto transition-transform duration-300 group-hover:scale-105 dark:hidden object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="{{ asset('images/light-mode-logo.png') }}?v=8" alt="{{ ($settings['site_title'] ?? 'GMSGARAGE') }} Logo" class="w-auto transition-transform duration-300 group-hover:scale-105 dark:hidden" style="height: 80px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <!-- Dark Mode Logo -->
-                    <img src="{{ asset('images/dark-mode-logo.png') }}" alt="{{ ($settings['site_title'] ?? 'GMSGARAGE') }} Logo" class="h-16 w-auto transition-transform duration-300 group-hover:scale-105 hidden dark:block object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="{{ asset('images/dark-mode-logo.png') }}?v=8" alt="{{ ($settings['site_title'] ?? 'GMSGARAGE') }} Logo" class="w-auto transition-transform duration-300 group-hover:scale-105 hidden dark:block" style="height: 80px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="text-3xl font-bold text-primary-600" style="display:none;">{{ $settings['site_title'] ?? 'GMSGARAGE' }}</div>
                 </a>
                 

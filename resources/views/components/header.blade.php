@@ -1,12 +1,12 @@
 <header class="bg-white/95 dark:bg-[#1e1e1e]/95 backdrop-blur-modern shadow-lg sticky top-0 z-50 border-b border-gray-100 dark:border-[#333333] transition-all duration-300">
     <nav class="container-custom">
-        <div class="flex items-center justify-between h-28">
+        <div class="flex items-center justify-between" style="height: 100px;">
             <!-- Logo -->
-            <a href="{{ route('home') }}" class="flex items-center space-x-3 group relative h-16 md:h-20">
+            <a href="{{ route('home') }}" class="flex items-center group relative" style="height: 90px;">
                 <!-- Light Mode Logo -->
-                <img src="{{ asset('images/light-mode-logo.png') }}" alt="{{ $settings['site_title'] ?? 'GMSGARAGE' }} Logo" class="h-16 md:h-20 w-auto transition-transform duration-300 group-hover:scale-105 dark:hidden object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <img src="{{ asset('images/light-mode-logo.png') }}?v=8" alt="{{ $settings['site_title'] ?? 'GMSGARAGE' }} Logo" class="w-auto transition-transform duration-300 group-hover:scale-105 dark:hidden" style="height: 80px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <!-- Dark Mode Logo -->
-                <img src="{{ asset('images/dark-mode-logo.png') }}" alt="{{ $settings['site_title'] ?? 'GMSGARAGE' }} Logo" class="h-16 md:h-20 w-auto transition-transform duration-300 group-hover:scale-105 hidden dark:block object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <img src="{{ asset('images/dark-mode-logo.png') }}?v=8" alt="{{ $settings['site_title'] ?? 'GMSGARAGE' }} Logo" class="w-auto transition-transform duration-300 group-hover:scale-105 hidden dark:block" style="height: 80px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <div class="text-4xl md:text-5xl font-bold text-primary-600 dark:text-primary-400" style="display:none;">{{ $settings['site_title'] ?? 'GMSGARAGE' }}</div>
             </a>
             
